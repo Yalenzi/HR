@@ -1,33 +1,78 @@
+import { useState, useEffect } from 'react';
+import { initDatabase, database } from '../../lib/database';
+
 export default function StatsCards() {
-  const stats = [
-    {
-      title: 'إجمالي الخطابات',
-      value: '1,247',
-      change: '+12%',
-      changeType: 'increase',
-      icon: '📄'
-    },
-    {
-      title: 'الخطابات هذا الشهر',
-      value: '89',
-      change: '+5%',
-      changeType: 'increase',
-      icon: '📈'
-    },
-    {
-      title: 'النماذج النشطة',
-      value: '12',
-      change: '+2',
-      changeType: 'increase',
-      icon: '✅'
-    },
-    {
-      title: 'المستخدمين النشطين',
-      value: '24',
-      change: '+3',
-      changeType: 'increase',
-      icon: '👥'
+  const [stats, setStats] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadStats();
+  }, []);
+
+  const loadStats = async () => {
+    try {
+      await initDatabase();
+      const dbStats = await database.getStats();
+
+      const statsData = [
+        {
+          title: 'إجمالي الموظفين',
+          value: dbStats.totalEmployees.toString(),
+          change: '',
+          changeType: 'neutral',
+          icon: '👥'
+        },
+        {
+          title: 'إجمالي الخطابات',
+          value: dbStats.totalLetters.toString(),
+          change: '',
+          changeType: 'neutral',
+          icon: '📄'
+        },
+        {
+          title: 'النماذج المتاحة',
+          value: dbStats.totalTemplates.toString(),
+          change: '',
+          changeType: 'neutral',
+          icon: '📝'
+        },
+        {
+          title: 'المستخدمين',
+          value: dbStats.totalUsers.toString(),
+          change: '',
+          changeType: 'neutral',
+          icon: '🔐'
+        }
+      ];
+
+      setStats(statsData);
+    } catch (error) {
+      console.error('خطأ في تحميل الإحصائيات:', error);
+      // إحصائيات افتراضية في حالة الخطأ
+      setStats([
+        { title: 'إجمالي الموظفين', value: '0', change: '', changeType: 'neutral', icon: '👥' },
+        { title: 'إجمالي الخطابات', value: '0', change: '', changeType: 'neutral', icon: '📄' },
+        { title: 'النماذج المتاحة', value: '0', change: '', changeType: 'neutral', icon: '📝' },
+        { title: 'المستخدمين', value: '0', change: '', changeType: 'neutral', icon: '🔐' }
+      ]);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="bg-white rounded-lg shadow p-6 animate-pulse">
+            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+            <div className="h-8 bg-gray-200 rounded w-1/2 mb-2"></div>
+            <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+          </div>
+        ))}
+      </div>
+    );
+  }
   ];
 
   return (

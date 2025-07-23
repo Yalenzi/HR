@@ -5,9 +5,14 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
   const [formData, setFormData] = useState({
     name: template?.name || '',
     type: template?.type || 'certificate',
+    title: template?.title || '',
     content: template?.content || '',
     fileUrl: template?.fileUrl || null,
-    variables: template?.variables || ['employeeName', 'nationalId', 'position'],
+    variables: template?.variables || [
+      { key: "employeeName", label: "اسم الموظف", type: "text", required: true },
+      { key: "nationalId", label: "رقم الهوية", type: "text", required: true },
+      { key: "position", label: "المسمى الوظيفي", type: "text", required: true }
+    ],
     isActive: template?.isActive ?? true
   });
 
@@ -122,6 +127,19 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                عنوان النموذج
+              </label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => handleChange('title', e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:border-green-500"
+                placeholder="مثال: شهادة عمل"
+              />
             </div>
           </div>
 

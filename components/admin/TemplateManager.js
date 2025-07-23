@@ -1,31 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TemplateEditor from './TemplateEditor';
 import FileUploader from './FileUploader';
+import { initDatabase, database } from '../../lib/database';
 
 export default function TemplateManager() {
-  const [templates, setTemplates] = useState([
-    {
-      id: 1,
-      name: 'شهادة عمل',
-      type: 'certificate',
-      content: 'نشهد نحن وزارة الصحة...',
-      fileUrl: null,
-      createdAt: '2024-01-15',
-      isActive: true
-    },
-    {
-      id: 2,
-      name: 'إخلاء طرف',
-      type: 'clearance',
-      content: 'نشهد نحن وزارة الصحة...',
-      fileUrl: '/templates/clearance-template.pdf',
-      createdAt: '2024-01-10',
-      isActive: true
-    }
-  ]);
-
+  const [templates, setTemplates] = useState([]);
   const [showEditor, setShowEditor] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // تحميل النماذج من قاعدة البيانات
+  useEffect(() => {
+    loadTemplates();
+  }, []);
+
+  const loadTemplates = async () => {
+    try {
+      setLoading(true);
+      await initDatabase();
+      const allTemplates = await database.getAllTemplates();
+      setTemplates(allTemplates);
+      setError(null);
+    } catch (err) {
+      console.error('خطأ في تحميل النماذج:', err);
+      setError('فشل في تحميل النماذج');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCreateNew = () => {
     setEditingTemplate(null);
@@ -37,32 +40,59 @@ export default function TemplateManager() {
     setShowEditor(true);
   };
 
-  const handleSaveTemplate = (templateData) => {
-    if (editingTemplate) {
-      setTemplates(prev => prev.map(t => 
-        t.id === editingTemplate.id ? { ...t, ...templateData } : t
-      ));
-    } else {
-      const newTemplate = {
-        id: Date.now(),
-        ...templateData,
-        createdAt: new Date().toISOString().split('T')[0],
-        isActive: true
-      };
-      setTemplates(prev => [...prev, newTemplate]);
+  const handleSaveTemplate = async (templateData) => {
+    try {
+      if (editingTemplate) {
+        // تحديث نموذج موجود
+        const updatedTemplate = { ...editingTemplate, ...templateData };
+        await database.updateTemplate(updatedTemplate);
+        setTemplates(prev => prev.map(t =>
+          t.id === editingTemplate.id ? updatedTemplate : t
+        ));
+      } else {
+        // إنشاء نموذج جديد
+        const newTemplate = {
+          ...templateData,
+          isActive: true
+        };
+        await database.addTemplate(newTemplate);
+        // إعادة تحميل النماذج للحصول على ID الجديد
+        await loadTemplates();
+      }
+      setShowEditor(false);
+      setError(null);
+    } catch (err) {
+      console.error('خطأ في حفظ النموذج:', err);
+      setError('فشل في حفظ النموذج');
     }
-    setShowEditor(false);
   };
 
-  const handleToggleActive = (id) => {
-    setTemplates(prev => prev.map(t => 
-      t.id === id ? { ...t, isActive: !t.isActive } : t
-    ));
+  const handleToggleActive = async (id) => {
+    try {
+      const template = templates.find(t => t.id === id);
+      if (template) {
+        const updatedTemplate = { ...template, isActive: !template.isActive };
+        await database.updateTemplate(updatedTemplate);
+        setTemplates(prev => prev.map(t =>
+          t.id === id ? updatedTemplate : t
+        ));
+      }
+    } catch (err) {
+      console.error('خطأ في تحديث حالة النموذج:', err);
+      setError('فشل في تحديث حالة النموذج');
+    }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (confirm('هل أنت متأكد من حذف هذا النموذج؟')) {
-      setTemplates(prev => prev.filter(t => t.id !== id));
+      try {
+        await database.deleteTemplate(id);
+        setTemplates(prev => prev.filter(t => t.id !== id));
+        setError(null);
+      } catch (err) {
+        console.error('خطأ في حذف النموذج:', err);
+        setError('فشل في حذف النموذج');
+      }
     }
   };
 
@@ -76,18 +106,54 @@ export default function TemplateManager() {
     );
   }
 
+  // عرض حالة التحميل
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">جاري تحميل النماذج...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {/* رسالة الخطأ */}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+          <strong className="font-bold">خطأ: </strong>
+          <span className="block sm:inline">{error}</span>
+          <button
+            onClick={() => setError(null)}
+            className="absolute top-0 bottom-0 right-0 px-4 py-3"
+          >
+            <span className="sr-only">إغلاق</span>
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-900">إدارة النماذج</h2>
-        <button
-          onClick={handleCreateNew}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center"
-        >
-          <span className="ml-2">➕</span>
-          إنشاء نموذج جديد
-        </button>
+        <div className="flex space-x-2 space-x-reverse">
+          <button
+            onClick={loadTemplates}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+          >
+            <span className="ml-2">🔄</span>
+            تحديث
+          </button>
+          <button
+            onClick={handleCreateNew}
+            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center"
+          >
+            <span className="ml-2">➕</span>
+            إنشاء نموذج جديد
+          </button>
+        </div>
       </div>
 
       {/* Templates Grid */}

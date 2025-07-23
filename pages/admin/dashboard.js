@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import SettingsPanel from '../../components/admin/SettingsPanel';
 import TemplateManager from '../../components/admin/TemplateManager';
+import EmployeeManager from '../../components/admin/EmployeeManager';
+import BackupManager from '../../components/admin/BackupManager';
 import StatsCards from '../../components/admin/StatsCards';
 
 export default function AdminDashboard() {
@@ -17,9 +19,10 @@ export default function AdminDashboard() {
 
   const tabs = [
     { id: 'overview', name: 'نظرة عامة', icon: '📊' },
-    { id: 'settings', name: 'إعدادات المنشأة', icon: '⚙️' },
+    { id: 'employees', name: 'إدارة الموظفين', icon: '👥' },
     { id: 'templates', name: 'إدارة النماذج', icon: '📄' },
-    { id: 'users', name: 'إدارة المستخدمين', icon: '👥' },
+    { id: 'settings', name: 'إعدادات المنشأة', icon: '⚙️' },
+    { id: 'backup', name: 'النسخ الاحتياطية', icon: '💾' },
     { id: 'reports', name: 'التقارير', icon: '📈' }
   ];
 
@@ -27,10 +30,16 @@ export default function AdminDashboard() {
     switch (activeTab) {
       case 'overview':
         return <StatsCards />;
-      case 'settings':
-        return <SettingsPanel settings={settings} onUpdate={setSettings} />;
+      case 'employees':
+        return <EmployeeManager />;
       case 'templates':
         return <TemplateManager />;
+      case 'settings':
+        return <SettingsPanel settings={settings} onUpdate={setSettings} />;
+      case 'backup':
+        return <BackupManager />;
+      case 'reports':
+        return <div className="p-6">التقارير - قريباً...</div>;
       default:
         return <div className="p-6">قريباً...</div>;
     }

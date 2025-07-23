@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { initDatabase, database } from '../lib/database';
 
 export default function LetterForm({ letterType, onDataChange, onBack }) {
   const [formData, setFormData] = useState({
@@ -18,6 +19,35 @@ export default function LetterForm({ letterType, onDataChange, onBack }) {
     setFormData(newData);
     onDataChange(newData);
   };
+
+  // حفظ الخطاب في قاعدة البيانات
+  const saveLetter = async (letterData) => {
+    try {
+      await initDatabase();
+      const letter = {
+        type: letterType,
+        employeeId: letterData.employeeId || letterData.nationalId,
+        employeeName: letterData.employeeName,
+        data: letterData,
+        createdAt: new Date().toISOString()
+      };
+      await database.addLetter(letter);
+      console.log('تم حفظ الخطاب بنجاح');
+    } catch (error) {
+      console.error('خطأ في حفظ الخطاب:', error);
+    }
+  };
+
+  // حفظ الخطاب عند تغيير البيانات (مع تأخير لتجنب الحفظ المتكرر)
+  useEffect(() => {
+    if (formData.employeeName && formData.nationalId) {
+      const timeoutId = setTimeout(() => {
+        saveLetter(formData);
+      }, 2000); // حفظ بعد ثانيتين من آخر تعديل
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [formData, letterType]);
 
   const getFormFields = () => {
     const commonFields = (
