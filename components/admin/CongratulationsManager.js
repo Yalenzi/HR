@@ -46,9 +46,9 @@ export default function CongratulationsManager() {
       congratulationMessage2: 'بمناسبة حصولكم على هذا الإنجاز المتميز',
       congratulationMessage3: 'متمنين لكم دوام التوفيق والنجاح في مسيرتكم المهنية',
       senderTitle: 'سعادة',
-      senderPosition: 'مدير عام التجمع',
+      senderPosition: 'مدير المركز',
       senderHonorific: 'حفظه الله',
-      managerName: 'د. محمد أحمد السعيد',
+      managerName: 'د. فواز جمال الديدب',
       employeePhoto: null,
       closingPhrase: 'هذا ولكم تحياتي'
     };

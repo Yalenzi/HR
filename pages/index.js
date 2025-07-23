@@ -22,7 +22,7 @@ export default function Home() {
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-center flex-1">
             <h1 className="text-3xl font-bold">نظام خطابات الموظفين</h1>
-            <p className="mt-2">وزارة الصحة - المملكة العربية السعودية</p>
+            <p className="mt-2">مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية</p>
           </div>
           <div className="flex space-x-4 space-x-reverse">
             <Link

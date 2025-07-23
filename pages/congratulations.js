@@ -18,9 +18,9 @@ export default function CongratulationsPage() {
       congratulationMessage2: 'بمناسبة حصولكم على هذا الإنجاز المتميز',
       congratulationMessage3: 'متمنين لكم دوام التوفيق والنجاح في مسيرتكم المهنية',
       senderTitle: 'سعادة',
-      senderPosition: 'مدير عام التجمع',
+      senderPosition: 'مدير المركز',
       senderHonorific: 'حفظه الله',
-      managerName: 'د. محمد أحمد السعيد',
+      managerName: 'د. فواز جمال الديدب',
       employeePhoto: null,
       closingPhrase: 'هذا ولكم تحياتي'
     };
@@ -55,7 +55,7 @@ export default function CongratulationsPage() {
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-center flex-1">
             <h1 className="text-3xl font-bold">نظام قوالب التهنئة</h1>
-            <p className="mt-2">وزارة الصحة - المملكة العربية السعودية</p>
+            <p className="mt-2">مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية</p>
           </div>
           <div className="flex space-x-4 space-x-reverse">
             <Link 
@@ -176,7 +176,7 @@ export default function CongratulationsPage() {
       <footer className="bg-green-600 text-white p-6 mt-12">
         <div className="container mx-auto text-center">
           <p className="text-lg font-semibold mb-2">
-            وزارة الصحة - المملكة العربية السعودية
+            مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية
           </p>
           <p className="text-sm opacity-90">
             نظام إدارة خطابات الموظفين - قوالب التهنئة

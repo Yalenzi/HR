@@ -15,10 +15,10 @@ export default function WitnessPage() {
       additionalInfo: '',
       senderTitle: 'سعادة',
       senderHonorific: 'حفظه الله',
-      letterContent: 'تشهد إدارة الخدمات الشرعية بمركز الخدمات الشرعية أن الموظف المذكور أعلاه يعمل لدينا ويؤدي مهامه بكفاءة عالية ونزاهة تامة.',
+      letterContent: 'تشهد إدارة مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية أن الموظف المذكور أعلاه يعمل لدينا ويؤدي مهامه بكفاءة عالية ونزاهة تامة.',
       closingPhrase: 'هذا ولكم تحياتي',
-      managerName: 'د. محمد أحمد السعيد',
-      facilityName: 'مركز الخدمات الشرعية',
+      managerName: 'د. فواز جمال الديدب',
+      facilityName: 'مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية',
       issueDate: new Date().toISOString().split('T')[0]
     };
     

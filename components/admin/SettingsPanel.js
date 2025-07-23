@@ -37,10 +37,18 @@ export default function SettingsPanel({ settings: initialSettings, onUpdate }) {
       setSaving(true);
       setError(null);
 
+      // التأكد من تهيئة قاعدة البيانات
+      await initDatabase();
+
       // حفظ كل إعداد في قاعدة البيانات
       for (const [key, value] of Object.entries(formData)) {
-        await database.setSetting(key, value);
+        if (value !== undefined && value !== null) {
+          await database.setSetting(key, value);
+        }
       }
+
+      // إعادة تحميل الإعدادات للتأكد من الحفظ
+      await loadSettings();
 
       setIsEditing(false);
       if (onUpdate) {
@@ -49,9 +57,48 @@ export default function SettingsPanel({ settings: initialSettings, onUpdate }) {
       alert('تم حفظ الإعدادات بنجاح');
     } catch (err) {
       console.error('خطأ في حفظ الإعدادات:', err);
-      setError('فشل في حفظ الإعدادات');
+      setError('فشل في حفظ الإعدادات: ' + err.message);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleResetToDefaults = async () => {
+    if (confirm('هل أنت متأكد من إعادة تعيين الإعدادات إلى القيم الافتراضية؟')) {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const defaultSettings = {
+          centerManagerName: 'د. فواز جمال الديدب',
+          facilityName: 'مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية',
+          facilityAddress: 'الحدود الشمالية عرعر',
+          facilityPhone: '+966-14-1234567',
+          facilityEmail: 'aburakan4551@gmail.com',
+          logoUrl: '/images/ministry-logo.png',
+          letterNumberPrefix: 'MOH',
+          enableLetterNumbers: true,
+          enableWatermark: false,
+          watermarkText: 'وزارة الصحة - سري'
+        };
+
+        await initDatabase();
+
+        // حفظ الإعدادات الافتراضية
+        for (const [key, value] of Object.entries(defaultSettings)) {
+          await database.setSetting(key, value);
+        }
+
+        // إعادة تحميل الإعدادات
+        await loadSettings();
+
+        alert('تم إعادة تعيين الإعدادات إلى القيم الافتراضية بنجاح');
+      } catch (err) {
+        console.error('خطأ في إعادة تعيين الإعدادات:', err);
+        setError('فشل في إعادة تعيين الإعدادات');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -107,6 +154,14 @@ export default function SettingsPanel({ settings: initialSettings, onUpdate }) {
           >
             <span className="ml-2">🔄</span>
             تحديث
+          </button>
+          <button
+            onClick={handleResetToDefaults}
+            className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 flex items-center"
+            disabled={loading || saving}
+          >
+            <span className="ml-2">🔄</span>
+            إعادة تعيين
           </button>
           <button
             onClick={() => setIsEditing(!isEditing)}
@@ -255,6 +310,26 @@ export default function SettingsPanel({ settings: initialSettings, onUpdate }) {
           </button>
         </div>
       )}
+
+      {/* معلومات الإعدادات الافتراضية */}
+      <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+        <h3 className="text-lg font-semibold text-blue-800 mb-4">الإعدادات الافتراضية الحالية:</h3>
+        <div className="grid md:grid-cols-2 gap-4 text-sm">
+          <div>
+            <p><strong>اسم مدير المركز:</strong> د. فواز جمال الديدب</p>
+            <p><strong>اسم المنشأة:</strong> مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية</p>
+            <p><strong>العنوان:</strong> الحدود الشمالية عرعر</p>
+          </div>
+          <div>
+            <p><strong>رقم الهاتف:</strong> +966-14-1234567</p>
+            <p><strong>البريد الإلكتروني:</strong> aburakan4551@gmail.com</p>
+            <p><strong>بادئة رقم الخطاب:</strong> MOH</p>
+          </div>
+        </div>
+        <div className="mt-4 text-xs text-blue-600">
+          💡 يمكنك استخدام زر "إعادة تعيين" لاستعادة هذه القيم في أي وقت
+        </div>
+      </div>
     </div>
   );
 }

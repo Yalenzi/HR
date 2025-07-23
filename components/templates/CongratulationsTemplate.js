@@ -13,9 +13,9 @@ export default function CongratulationsTemplate({ data, onSave, onCancel }) {
     congratulationMessage2: data?.congratulationMessage2 || 'بمناسبة حصولكم على هذا الإنجاز المتميز',
     congratulationMessage3: data?.congratulationMessage3 || 'متمنين لكم دوام التوفيق والنجاح في مسيرتكم المهنية',
     senderTitle: data?.senderTitle || 'سعادة',
-    senderPosition: data?.senderPosition || 'مدير عام التجمع',
+    senderPosition: data?.senderPosition || 'مدير المركز',
     senderHonorific: data?.senderHonorific || 'حفظه الله',
-    managerName: data?.managerName || 'د. محمد أحمد السعيد',
+    managerName: data?.managerName || 'د. فواز جمال الديدب',
     employeePhoto: data?.employeePhoto || null,
     closingPhrase: data?.closingPhrase || 'هذا ولكم تحياتي'
   });

@@ -10,10 +10,10 @@ export default function EmployeeWitnessTemplate({ data, onSave, onCancel }) {
     additionalInfo: data?.additionalInfo || '',
     senderTitle: data?.senderTitle || 'سعادة',
     senderHonorific: data?.senderHonorific || 'حفظه الله',
-    letterContent: data?.letterContent || 'تشهد إدارة الخدمات الشرعية بمركز الخدمات الشرعية أن الموظف المذكور أعلاه يعمل لدينا ويؤدي مهامه بكفاءة عالية ونزاهة تامة.',
+    letterContent: data?.letterContent || 'تشهد إدارة مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية أن الموظف المذكور أعلاه يعمل لدينا ويؤدي مهامه بكفاءة عالية ونزاهة تامة.',
     closingPhrase: data?.closingPhrase || 'هذا ولكم تحياتي',
-    managerName: data?.managerName || 'د. محمد أحمد السعيد',
-    facilityName: data?.facilityName || 'مركز الخدمات الشرعية',
+    managerName: data?.managerName || 'د. فواز جمال الديدب',
+    facilityName: data?.facilityName || 'مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية',
     issueDate: data?.issueDate || new Date().toISOString().split('T')[0]
   });
 
