@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import LetterForm from '../components/LetterForm';
 import LetterPreview from '../components/LetterPreview';
 
@@ -15,9 +16,22 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
-      <header className="bg-green-600 text-white p-6 text-center">
-        <h1 className="text-3xl font-bold">نظام خطابات الموظفين</h1>
-        <p className="mt-2">وزارة الصحة - المملكة العربية السعودية</p>
+      <header className="bg-green-600 text-white p-6">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="text-center flex-1">
+            <h1 className="text-3xl font-bold">نظام خطابات الموظفين</h1>
+            <p className="mt-2">وزارة الصحة - المملكة العربية السعودية</p>
+          </div>
+          <div className="flex space-x-4 space-x-reverse">
+            <Link
+              href="/admin/dashboard"
+              className="bg-green-700 hover:bg-green-800 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 space-x-reverse"
+            >
+              <span>⚙️</span>
+              <span>لوحة التحكم</span>
+            </Link>
+          </div>
+        </div>
       </header>
 
       <div className="container mx-auto p-6">
