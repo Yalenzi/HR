@@ -47,7 +47,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
     const text = formData.content;
     const before = text.substring(0, start);
     const after = text.substring(end, text.length);
-    const newText = before + `{{${variable}}}` + after;
+    const newText = before + '{{' + variable + '}}' + after;
     
     handleChange('content', newText);
     
@@ -163,7 +163,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
               onChange={(e) => handleChange('content', e.target.value)}
               rows={12}
               className="w-full p-3 border border-gray-300 rounded-lg focus:border-green-500 font-mono text-sm"
-              placeholder="اكتب محتوى النموذج هنا... يمكنك استخدام المتغيرات مثل {{employeeName}}"
+              placeholder="اكتب محتوى النموذج هنا... يمكنك استخدام المتغيرات مثل employeeName بين أقواس مزدوجة"
             />
             <p className="text-xs text-gray-500 mt-1">
               استخدم المتغيرات بين أقواس مزدوجة مثل: {"{"}{"{"} employeeName {"}"}{"}"}
@@ -204,7 +204,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
                 >
                   <div>
                     <div className="text-sm font-medium">{variable.label}</div>
-                    <div className="text-xs text-gray-500">{"{"}{"{"}{variable.key}{"}"}{"}"}}</div>
+                    <div className="text-xs text-gray-500">{"{{" + variable.key + "}}"}</div>
                   </div>
                   <button
                     onClick={() => insertVariable(variable.key)}
