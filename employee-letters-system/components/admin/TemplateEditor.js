@@ -40,15 +40,6 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleVariableToggle = (variable) => {
-    setFormData(prev => ({
-      ...prev,
-      variables: prev.variables.includes(variable)
-        ? prev.variables.filter(v => v !== variable)
-        : [...prev.variables, variable]
-    }));
-  };
-
   const insertVariable = (variable) => {
     const textarea = document.getElementById('content-textarea');
     const start = textarea.selectionStart;
@@ -175,7 +166,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
               placeholder="اكتب محتوى النموذج هنا... يمكنك استخدام المتغيرات مثل {{employeeName}}"
             />
             <p className="text-xs text-gray-500 mt-1">
-              استخدم المتغيرات بين أقواس مزدوجة مثل: {{`employeeName`}}
+              استخدم المتغيرات بين أقواس مزدوجة مثل: {"{"}{"{"} employeeName {"}"}{"}"}
             </p>
           </div>
 
@@ -188,7 +179,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
               <div className="p-4 border border-gray-200 rounded-lg bg-gray-50 text-sm leading-relaxed">
                 {formData.content.split('\n').map((line, index) => (
                   <p key={index} className="mb-2">
-                    {line.replace(/\{\{(\w+)\}\}/g, (match, variable) => {
+                    {line.replace(/\{\{(\w+)\}\}/g, (_, variable) => {
                       const varInfo = availableVariables.find(v => v.key === variable);
                       return `[${varInfo?.label || variable}]`;
                     })}
@@ -213,7 +204,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
                 >
                   <div>
                     <div className="text-sm font-medium">{variable.label}</div>
-                    <div className="text-xs text-gray-500">{{`${variable.key}`}}</div>
+                    <div className="text-xs text-gray-500">{"{"}{"{"}{variable.key}{"}"}{"}"}}</div>
                   </div>
                   <button
                     onClick={() => insertVariable(variable.key)}
