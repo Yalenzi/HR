@@ -130,15 +130,34 @@ export default function LetterForm({ letterType, onDataChange, onBack }) {
     if (letterType === 'congratulations') {
       return (
         <>
-          {commonFields}
+          <input
+            name="employeeName"
+            type="text"
+            placeholder="اسم الزميل"
+            value={formData.employeeName}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg"
+            required
+          />
+          <input
+            name="managementName"
+            type="text"
+            placeholder="اسم الإدارة"
+            value={formData.managementName}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg"
+            required
+          />
           <select
             name="occasionType"
-            value={formData.occasionType || 'ترقية'}
+            value={formData.occasionType || 'تكليف'}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg"
             required
           >
-            <option value="">اختر نوع المناسبة</option>
+            <option value="">اختر مناسبة التهنئة</option>
+            <option value="تكليف">تكليف</option>
+            <option value="تمديد تكليف">تمديد تكليف</option>
             <option value="ترقية">ترقية</option>
             <option value="تكريم">تكريم</option>
             <option value="إنجاز متميز">إنجاز متميز</option>
@@ -155,6 +174,14 @@ export default function LetterForm({ letterType, onDataChange, onBack }) {
             value={formData.occasionDate || new Date().toISOString().split('T')[0]}
             onChange={handleChange}
             className="w-full p-3 border rounded-lg"
+            required
+          />
+          <textarea
+            name="customMessage"
+            placeholder="النص المخصص للتهنئة"
+            value={formData.customMessage || 'تتقدم إدارة الخدمات الطبية الشرعية بمنطقة الحدود الشمالية بالتهنئة للزميل [اسم الزميل] بمناسبة صدور قرار تمديد تكليفه مديراً ل[اسم الإدارة] بمركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية متمنين للزميل دوام التوفيق والنجاح'}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg h-32"
             required
           />
         </>

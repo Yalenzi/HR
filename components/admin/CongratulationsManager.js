@@ -40,17 +40,16 @@ export default function CongratulationsManager() {
       employeeId: '',
       position: '',
       department: '',
-      occasionType: 'ترقية',
+      managementName: '',
+      occasionType: 'تكليف',
       occasionDate: new Date().toISOString().split('T')[0],
-      congratulationMessage1: 'يسعدنا أن نتقدم لكم بأحر التهاني والتبريكات',
-      congratulationMessage2: 'بمناسبة حصولكم على هذا الإنجاز المتميز',
-      congratulationMessage3: 'متمنين لكم دوام التوفيق والنجاح في مسيرتكم المهنية',
-      senderTitle: 'سعادة',
-      senderPosition: 'مدير المركز',
-      senderHonorific: 'حفظه الله',
+      customMessage: 'تتقدم إدارة الخدمات الطبية الشرعية بمنطقة الحدود الشمالية بالتهنئة للزميل [اسم الزميل] بمناسبة صدور قرار تمديد تكليفه مديراً ل[اسم الإدارة] بمركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية متمنين للزميل دوام التوفيق والنجاح',
       managerName: 'د. فواز جمال الديدب',
       employeePhoto: null,
-      closingPhrase: 'هذا ولكم تحياتي'
+      backgroundImage: null,
+      textPosition: 'center',
+      backgroundColor: '#ffffff',
+      textColor: '#000000'
     };
     
     setSelectedCongratulation({ data: defaultData });
