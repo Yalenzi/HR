@@ -11,6 +11,7 @@ export default function Home() {
     { id: 'certificate', name: 'شهادة عمل', icon: '📄' },
     { id: 'clearance', name: 'إخلاء طرف', icon: '✅' },
     { id: 'salary', name: 'شهادة راتب', icon: '💰' },
+    { id: 'congratulations', name: 'قالب التهنئة', icon: '🎉' },
     { id: 'experience', name: 'شهادة خبرة', icon: '🏆' }
   ];
 
@@ -23,6 +24,13 @@ export default function Home() {
             <p className="mt-2">وزارة الصحة - المملكة العربية السعودية</p>
           </div>
           <div className="flex space-x-4 space-x-reverse">
+            <Link
+              href="/congratulations"
+              className="bg-green-700 hover:bg-green-800 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 space-x-reverse"
+            >
+              <span>🎉</span>
+              <span>قوالب التهنئة</span>
+            </Link>
             <Link
               href="/admin/dashboard"
               className="bg-green-700 hover:bg-green-800 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 space-x-reverse"

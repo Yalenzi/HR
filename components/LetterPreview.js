@@ -1,9 +1,15 @@
 import { useRef } from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import CongratulationsTemplate from './templates/CongratulationsTemplate';
 
 export default function LetterPreview({ letterType, data }) {
   const letterRef = useRef();
+
+  // إذا كان النوع تهنئة، استخدم المكون المخصص
+  if (letterType === 'congratulations') {
+    return <CongratulationsTemplate data={data} />;
+  }
 
   const generatePDF = async () => {
     const element = letterRef.current;
@@ -23,6 +29,7 @@ export default function LetterPreview({ letterType, data }) {
       certificate: 'شهادة عمل',
       clearance: 'إخلاء طرف',
       salary: 'شهادة راتب',
+      congratulations: 'قالب التهنئة',
       experience: 'شهادة خبرة'
     };
     return titles[letterType];

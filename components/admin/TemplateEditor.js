@@ -20,6 +20,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
     { value: 'certificate', label: 'شهادة عمل' },
     { value: 'clearance', label: 'إخلاء طرف' },
     { value: 'salary', label: 'شهادة راتب' },
+    { value: 'congratulations', label: 'قالب التهنئة' },
     { value: 'experience', label: 'شهادة خبرة' },
     { value: 'vacation', label: 'طلب إجازة' },
     { value: 'transfer', label: 'طلب نقل' },

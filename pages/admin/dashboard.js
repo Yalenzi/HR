@@ -4,6 +4,7 @@ import SettingsPanel from '../../components/admin/SettingsPanel';
 import TemplateManager from '../../components/admin/TemplateManager';
 import EmployeeManager from '../../components/admin/EmployeeManager';
 import BackupManager from '../../components/admin/BackupManager';
+import CongratulationsManager from '../../components/admin/CongratulationsManager';
 import StatsCards from '../../components/admin/StatsCards';
 
 export default function AdminDashboard() {
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
     { id: 'overview', name: 'نظرة عامة', icon: '📊' },
     { id: 'employees', name: 'إدارة الموظفين', icon: '👥' },
     { id: 'templates', name: 'إدارة النماذج', icon: '📄' },
+    { id: 'congratulations', name: 'قوالب التهنئة', icon: '🎉' },
     { id: 'settings', name: 'إعدادات المنشأة', icon: '⚙️' },
     { id: 'backup', name: 'النسخ الاحتياطية', icon: '💾' },
     { id: 'reports', name: 'التقارير', icon: '📈' }
@@ -34,6 +36,8 @@ export default function AdminDashboard() {
         return <EmployeeManager />;
       case 'templates':
         return <TemplateManager />;
+      case 'congratulations':
+        return <CongratulationsManager />;
       case 'settings':
         return <SettingsPanel settings={settings} onUpdate={setSettings} />;
       case 'backup':

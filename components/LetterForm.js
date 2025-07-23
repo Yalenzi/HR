@@ -127,6 +127,40 @@ export default function LetterForm({ letterType, onDataChange, onBack }) {
       );
     }
 
+    if (letterType === 'congratulations') {
+      return (
+        <>
+          {commonFields}
+          <select
+            name="occasionType"
+            value={formData.occasionType || 'ترقية'}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg"
+            required
+          >
+            <option value="">اختر نوع المناسبة</option>
+            <option value="ترقية">ترقية</option>
+            <option value="تكريم">تكريم</option>
+            <option value="إنجاز متميز">إنجاز متميز</option>
+            <option value="حصول على شهادة">حصول على شهادة</option>
+            <option value="تخرج">تخرج</option>
+            <option value="تعيين">تعيين</option>
+            <option value="نجاح في مهمة">نجاح في مهمة</option>
+            <option value="تميز في الأداء">تميز في الأداء</option>
+          </select>
+          <input
+            name="occasionDate"
+            type="date"
+            placeholder="تاريخ المناسبة"
+            value={formData.occasionDate || new Date().toISOString().split('T')[0]}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg"
+            required
+          />
+        </>
+      );
+    }
+
     return (
       <>
         {commonFields}
