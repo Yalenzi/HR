@@ -1,0 +1,98 @@
+{
+  "name": "card-generator",
+  "version": "1.0.0",
+  "description": "مولد بطاقات التهنئة الإلكترونية - مركز الخدمات الطبية الشرعية",
+  "author": "مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية",
+  "license": "Proprietary",
+  "type": "standalone-web-app",
+  "files": [
+    "index.html",
+    "style.css", 
+    "script.js",
+    "README.md",
+    "placeholder-logo.txt"
+  ],
+  "requirements": {
+    "browser": "Modern browser with JavaScript enabled",
+    "internet": "Required for fonts and html2canvas library",
+    "additional_files": [
+      "moh-bg.png (Ministry of Health logo - to be added by user)"
+    ]
+  },
+  "features": [
+    "✅ نموذج إدخال شامل (الاسم، المناسبة، النص، الصورة)",
+    "✅ زر تحديث البطاقة",
+    "✅ زر تحميل البطاقة كصورة PNG عالية الجودة", 
+    "✅ زر معاينة البطاقة في نافذة مكبرة",
+    "✅ تنسيق RTL ودعم كامل للعربية",
+    "✅ خلفيات متعددة (افتراضية، تدرج، نمط، مخصصة)",
+    "✅ رفع صورة شخصية للمُهنأ",
+    "✅ رفع خلفية مخصصة",
+    "✅ تصميم متجاوب للأجهزة المحمولة",
+    "✅ عناصر زخرفية متحركة",
+    "✅ تصدير عالي الجودة باستخدام html2canvas"
+  ],
+  "usage_instructions": [
+    "1. أضف صورة شعار وزارة الصحة باسم 'moh-bg.png'",
+    "2. افتح index.html في أي متصفح ويب حديث",
+    "3. أدخل بيانات التهنئة في النموذج",
+    "4. خصص التصميم حسب الحاجة",
+    "5. اضغط 'تحديث البطاقة' لرؤية التغييرات",
+    "6. استخدم 'معاينة البطاقة' للعرض المكبر",
+    "7. اضغط 'تحميل البطاقة' للحصول على صورة PNG"
+  ],
+  "technical_specs": {
+    "html_version": "HTML5",
+    "css_version": "CSS3 with Grid and Flexbox",
+    "javascript": "ES6+ with async/await",
+    "external_libraries": [
+      "html2canvas (CDN)",
+      "Google Fonts (Cairo, Amiri)"
+    ],
+    "image_formats_supported": [
+      "PNG (recommended)",
+      "JPG/JPEG",
+      "WebP"
+    ],
+    "output_format": "PNG (high quality, 2x scale)"
+  },
+  "customization": {
+    "colors": "Editable in style.css",
+    "fonts": "Google Fonts integration",
+    "backgrounds": "Multiple options + custom upload",
+    "text_templates": "Customizable in script.js",
+    "responsive_design": "Mobile-first approach"
+  },
+  "browser_support": {
+    "chrome": "60+",
+    "firefox": "55+", 
+    "safari": "12+",
+    "edge": "79+",
+    "mobile_browsers": "Modern mobile browsers"
+  },
+  "file_structure": {
+    "index.html": "Main application page",
+    "style.css": "All styling and responsive design",
+    "script.js": "Interactive functionality and card generation",
+    "README.md": "Comprehensive usage guide in Arabic",
+    "moh-bg.png": "Ministry logo (to be added by user)",
+    "placeholder-logo.txt": "Instructions for adding logo"
+  },
+  "ministry_info": {
+    "organization": "وزارة الصحة - المملكة العربية السعودية",
+    "department": "مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية",
+    "purpose": "إنشاء بطاقات تهنئة رسمية للموظفين",
+    "occasions_supported": [
+      "تكليف",
+      "تمديد تكليف", 
+      "ترقية",
+      "تكريم",
+      "إنجاز متميز",
+      "حصول على شهادة",
+      "تخرج",
+      "تعيين",
+      "نجاح في مهمة",
+      "تميز في الأداء"
+    ]
+  }
+}

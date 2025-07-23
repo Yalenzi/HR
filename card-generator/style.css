@@ -1,0 +1,476 @@
+/* إعدادات عامة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cairo', 'Amiri', Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    direction: rtl;
+    text-align: right;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.header-logo {
+    height: 80px;
+    width: auto;
+    filter: brightness(0) invert(1);
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* المحتوى الرئيسي */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* قسم الإدخال */
+.input-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: #2c5530;
+    margin-bottom: 25px;
+    border-bottom: 3px solid #4a7c59;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: #fafbfc;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #4a7c59;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.6;
+}
+
+.help-text {
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: block;
+}
+
+/* أزرار التحكم */
+.control-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    flex: 1;
+    min-width: 150px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #4a7c59 0%, #2c5530 100%);
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* قسم المعاينة */
+.preview-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* البطاقة */
+.card-container {
+    perspective: 1000px;
+}
+
+.card-background {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+    border: 3px solid #4a7c59;
+}
+
+/* خلفيات مختلفة */
+.card-background.gradient-green {
+    background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+}
+
+.card-background.gradient-blue {
+    background: linear-gradient(135deg, #a8d8ea 0%, #aa96da 100%);
+}
+
+.card-background.pattern {
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
+        linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+/* رأس البطاقة */
+.card-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #4a7c59;
+}
+
+.card-logo {
+    height: 60px;
+    width: auto;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    font-size: 1.8rem;
+    color: #2c5530;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.card-subtitle {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* محتوى البطاقة */
+.card-content {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.congratulations-badge {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #2c5530;
+    padding: 15px 30px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.badge-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.recipient-photo-container {
+    margin-bottom: 25px;
+}
+
+.recipient-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #4a7c59;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.message-content {
+    margin-bottom: 25px;
+}
+
+.congratulation-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+    padding: 20px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 15px;
+    border-right: 5px solid #4a7c59;
+}
+
+.highlight-name {
+    color: #2c5530;
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.occasion-badge {
+    background: linear-gradient(135deg, #4a7c59 0%, #2c5530 100%);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 25px;
+    display: inline-block;
+    box-shadow: 0 5px 15px rgba(44, 85, 48, 0.3);
+}
+
+.occasion-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* تذييل البطاقة */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 2px solid #4a7c59;
+}
+
+.signature {
+    text-align: right;
+}
+
+.signature-title {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.signature-name {
+    font-size: 1.2rem;
+    color: #2c5530;
+    font-weight: 700;
+}
+
+.date {
+    text-align: left;
+}
+
+.date-text {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* العناصر الزخرفية */
+.decorative-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.decoration {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+}
+
+.decoration-1 {
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.decoration-2 {
+    top: 20%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.decoration-3 {
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 4s;
+}
+
+.decoration-4 {
+    bottom: 10%;
+    right: 10%;
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 2% auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    left: 25px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.full-preview {
+    margin: 20px 0;
+}
+
+.modal-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Footer */
+.footer {
+    background: #2c5530;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .control-buttons {
+        flex-direction: column;
+    }
+    
+    .btn {
+        min-width: auto;
+    }
+    
+    .card-footer {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+}

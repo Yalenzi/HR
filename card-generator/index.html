@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد بطاقات التهنئة - وزارة الصحة</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="moh-bg.png" alt="شعار وزارة الصحة" class="header-logo" onerror="this.style.display='none'">
+            </div>
+            <h1 class="main-title">مولد بطاقات التهنئة الإلكترونية</h1>
+            <p class="subtitle">مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية</p>
+        </header>
+
+        <div class="main-content">
+            <!-- نموذج الإدخال -->
+            <div class="input-section">
+                <h2 class="section-title">📝 إعدادات البطاقة</h2>
+                
+                <div class="form-group">
+                    <label for="recipientName">اسم المُهنأ:</label>
+                    <input type="text" id="recipientName" placeholder="أدخل اسم الشخص المُهنأ" value="د. أحمد محمد العلي">
+                </div>
+
+                <div class="form-group">
+                    <label for="occasion">المناسبة:</label>
+                    <select id="occasion">
+                        <option value="تكليف">تكليف</option>
+                        <option value="تمديد تكليف">تمديد تكليف</option>
+                        <option value="ترقية">ترقية</option>
+                        <option value="تكريم">تكريم</option>
+                        <option value="إنجاز متميز">إنجاز متميز</option>
+                        <option value="حصول على شهادة">حصول على شهادة</option>
+                        <option value="تخرج">تخرج</option>
+                        <option value="تعيين">تعيين</option>
+                        <option value="نجاح في مهمة">نجاح في مهمة</option>
+                        <option value="تميز في الأداء">تميز في الأداء</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="managementName">اسم الإدارة/القسم:</label>
+                    <input type="text" id="managementName" placeholder="أدخل اسم الإدارة أو القسم" value="إدارة الطوارئ">
+                </div>
+
+                <div class="form-group">
+                    <label for="customMessage">النص المخصص:</label>
+                    <textarea id="customMessage" rows="4" placeholder="أدخل نص التهنئة المخصص">تتقدم إدارة الخدمات الطبية الشرعية بمنطقة الحدود الشمالية بالتهنئة للزميل بمناسبة صدور قرار تمديد تكليفه مديراً لإدارة الطوارئ بمركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية متمنين للزميل دوام التوفيق والنجاح</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="recipientPhoto">صورة المُهنأ:</label>
+                    <input type="file" id="recipientPhoto" accept="image/*">
+                    <small class="help-text">اختياري - يمكنك رفع صورة شخصية للمُهنأ</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardBackground">خلفية البطاقة:</label>
+                    <select id="cardBackground">
+                        <option value="default">الخلفية الافتراضية</option>
+                        <option value="gradient-green">تدرج أخضر</option>
+                        <option value="gradient-blue">تدرج أزرق</option>
+                        <option value="pattern">نمط هندسي</option>
+                        <option value="custom">خلفية مخصصة</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="customBackgroundGroup" style="display: none;">
+                    <label for="customBackgroundFile">رفع خلفية مخصصة:</label>
+                    <input type="file" id="customBackgroundFile" accept="image/*">
+                </div>
+
+                <!-- أزرار التحكم -->
+                <div class="control-buttons">
+                    <button id="updateCard" class="btn btn-primary">
+                        🔄 تحديث البطاقة
+                    </button>
+                    <button id="previewCard" class="btn btn-secondary">
+                        👁️‍🗨️ معاينة البطاقة
+                    </button>
+                    <button id="downloadCard" class="btn btn-success">
+                        📥 تحميل البطاقة كصورة
+                    </button>
+                </div>
+            </div>
+
+            <!-- معاينة البطاقة -->
+            <div class="preview-section">
+                <h2 class="section-title">🎉 معاينة البطاقة</h2>
+                
+                <div id="cardPreview" class="card-container">
+                    <div class="card-background">
+                        <div class="card-header">
+                            <img src="moh-bg.png" alt="شعار وزارة الصحة" class="card-logo" onerror="this.style.display='none'">
+                            <h1 class="card-title">مركز الخدمات الطبية الشرعية</h1>
+                            <p class="card-subtitle">بمنطقة الحدود الشمالية</p>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="congratulations-badge">
+                                <span class="badge-text">🎊 تهنئة 🎊</span>
+                            </div>
+
+                            <div class="recipient-photo-container">
+                                <img id="recipientPhotoPreview" src="" alt="صورة المُهنأ" class="recipient-photo" style="display: none;">
+                            </div>
+
+                            <div class="message-content">
+                                <div id="congratulationText" class="congratulation-text">
+                                    تتقدم إدارة الخدمات الطبية الشرعية بمنطقة الحدود الشمالية بالتهنئة للزميل 
+                                    <span class="highlight-name">د. أحمد محمد العلي</span> 
+                                    بمناسبة صدور قرار تمديد تكليفه مديراً لإدارة الطوارئ بمركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية متمنين للزميل دوام التوفيق والنجاح
+                                </div>
+                            </div>
+
+                            <div class="occasion-badge">
+                                <span id="occasionDisplay" class="occasion-text">تكليف</span>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="signature">
+                                <p class="signature-title">مدير المركز</p>
+                                <p class="signature-name">د. فواز جمال الديدب</p>
+                            </div>
+                            <div class="date">
+                                <p id="currentDate" class="date-text"></p>
+                            </div>
+                        </div>
+
+                        <div class="decorative-elements">
+                            <div class="decoration decoration-1">✨</div>
+                            <div class="decoration decoration-2">🌟</div>
+                            <div class="decoration decoration-3">✨</div>
+                            <div class="decoration decoration-4">🌟</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal للمعاينة المكبرة -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="fullPreview" class="full-preview">
+                    <!-- سيتم نسخ محتوى البطاقة هنا -->
+                </div>
+                <div class="modal-buttons">
+                    <button id="downloadFromModal" class="btn btn-success">
+                        📥 تحميل البطاقة
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 مركز الخدمات الطبية الشرعية بمنطقة الحدود الشمالية - جميع الحقوق محفوظة</p>
+        </footer>
+    </div>
+
+    <!-- مكتبة html2canvas لتحويل HTML إلى صورة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
