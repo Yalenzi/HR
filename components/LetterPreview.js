@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import CongratulationsTemplate from './templates/CongratulationsTemplate';
+import EmployeeWitnessTemplate from './templates/EmployeeWitnessTemplate';
 
 export default function LetterPreview({ letterType, data }) {
   const letterRef = useRef();
@@ -9,6 +10,11 @@ export default function LetterPreview({ letterType, data }) {
   // إذا كان النوع تهنئة، استخدم المكون المخصص
   if (letterType === 'congratulations') {
     return <CongratulationsTemplate data={data} />;
+  }
+
+  // إذا كان النوع مشهد موظف، استخدم المكون المخصص
+  if (letterType === 'witness') {
+    return <EmployeeWitnessTemplate data={data} />;
   }
 
   const generatePDF = async () => {
@@ -29,6 +35,7 @@ export default function LetterPreview({ letterType, data }) {
       certificate: 'شهادة عمل',
       clearance: 'إخلاء طرف',
       salary: 'شهادة راتب',
+      witness: 'مشهد موظف',
       congratulations: 'قالب التهنئة',
       experience: 'شهادة خبرة'
     };

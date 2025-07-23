@@ -161,6 +161,45 @@ export default function LetterForm({ letterType, onDataChange, onBack }) {
       );
     }
 
+    if (letterType === 'witness') {
+      return (
+        <>
+          {commonFields}
+          <select
+            name="nationality"
+            value={formData.nationality || 'سعودي'}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg"
+            required
+          >
+            <option value="">اختر الجنسية</option>
+            <option value="سعودي">سعودي</option>
+            <option value="مصري">مصري</option>
+            <option value="سوري">سوري</option>
+            <option value="أردني">أردني</option>
+            <option value="لبناني">لبناني</option>
+            <option value="فلسطيني">فلسطيني</option>
+            <option value="عراقي">عراقي</option>
+            <option value="يمني">يمني</option>
+            <option value="سوداني">سوداني</option>
+            <option value="مغربي">مغربي</option>
+            <option value="تونسي">تونسي</option>
+            <option value="جزائري">جزائري</option>
+            <option value="ليبي">ليبي</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+          <textarea
+            name="letterContent"
+            placeholder="نص الخطاب (تشهد إدارة كذا...)"
+            value={formData.letterContent || 'تشهد إدارة الخدمات الشرعية بمركز الخدمات الشرعية أن الموظف المذكور أعلاه يعمل لدينا ويؤدي مهامه بكفاءة عالية ونزاهة تامة.'}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-lg h-24"
+            required
+          />
+        </>
+      );
+    }
+
     return (
       <>
         {commonFields}
