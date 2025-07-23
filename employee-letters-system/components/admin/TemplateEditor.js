@@ -166,7 +166,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
               placeholder="اكتب محتوى النموذج هنا... يمكنك استخدام المتغيرات مثل employeeName بين أقواس مزدوجة"
             />
             <p className="text-xs text-gray-500 mt-1">
-              استخدم المتغيرات بين أقواس مزدوجة مثل: {"{"}{"{"} employeeName {"}"}{"}"}
+              استخدم المتغيرات بين أقواس مزدوجة مثل: employeeName محاطة بأقواس مزدوجة
             </p>
           </div>
 
@@ -181,7 +181,7 @@ export default function TemplateEditor({ template, onSave, onCancel }) {
                   <p key={index} className="mb-2">
                     {line.replace(/\{\{(\w+)\}\}/g, (_, variable) => {
                       const varInfo = availableVariables.find(v => v.key === variable);
-                      return `[${varInfo?.label || variable}]`;
+                      return '[' + (varInfo?.label || variable) + ']';
                     })}
                   </p>
                 ))}
