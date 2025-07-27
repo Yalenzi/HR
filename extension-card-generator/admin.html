@@ -367,6 +367,205 @@
             border-radius: 3px;
         }
 
+        /* تنسيق الجداول */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 2px solid #5a67d8;
+        }
+
+        .data-table td {
+            padding: 10px 8px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .data-table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .data-table tbody tr:nth-child(even):hover {
+            background: #e9ecef;
+        }
+
+        /* تنسيق حالة المرفقات */
+        .attachment-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .attachment-status.complete {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .attachment-status.incomplete {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .attachment-status.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* تنسيق النماذج المنبثقة */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-dialog {
+            background: white;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            background: #f8f9fa;
+            border-radius: 0 0 15px 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group.required label::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* تنسيق QR Code */
+        .qr-code-container {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .qr-code-container canvas {
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+        }
+
+        /* تنسيق المرفقات */
+        .attachments-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+
+        .attachment-item.available {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .attachment-item.missing {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
         .sortable-list {
             min-height: 200px; border: 2px dashed #dee2e6;
             border-radius: 8px; padding: 10px;
@@ -578,6 +777,7 @@
         <!-- شريط التنقل -->
         <div class="admin-nav">
             <button class="nav-btn active" onclick="showSection('dashboard')">📊 لوحة المعلومات</button>
+            <button class="nav-btn" onclick="showSection('employees')">👥 إدارة الموظفين</button>
             <button class="nav-btn" onclick="showSection('cards')">📋 إدارة البطاقات</button>
             <button class="nav-btn" onclick="showSection('templates')">🎨 إدارة القوالب</button>
             <button class="nav-btn" onclick="showSection('organization')">🏢 معلومات المنشأة</button>
@@ -619,6 +819,75 @@
                     <h3>📋 آخر البطاقات المنشأة</h3>
                     <div id="recentCards">جاري التحميل...</div>
                 </div>
+            </div>
+        </div>
+
+        <!-- قسم إدارة الموظفين -->
+        <div id="employees" class="admin-section">
+            <h2>👥 إدارة الموظفين</h2>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="employeeSearch" placeholder="البحث بالاسم أو الهوية أو الوظيفة..."
+                           style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px; width: 300px;"
+                           onkeyup="searchEmployees()">
+                    <button onclick="searchEmployees()" class="btn btn-info">🔍 بحث</button>
+                    <button onclick="loadEmployees()" class="btn btn-secondary">🔄 تحديث</button>
+                </div>
+                <div>
+                    <button onclick="showAddEmployeeModal()" class="btn btn-success">➕ إضافة موظف جديد</button>
+                    <button onclick="showDepartmentsModal()" class="btn btn-info">🏢 إدارة الأقسام</button>
+                </div>
+            </div>
+
+            <!-- إحصائيات سريعة -->
+            <div class="stats-grid" style="margin-bottom: 20px;">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalEmployees">0</span>
+                    <span class="stat-label">إجمالي الموظفين</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="totalDepartments">0</span>
+                    <span class="stat-label">عدد الإدارات</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="saudiEmployees">0</span>
+                    <span class="stat-label">الموظفون السعوديون</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="completedAttachments">0</span>
+                    <span class="stat-label">المرفقات المكتملة</span>
+                </div>
+            </div>
+
+            <!-- جدول الموظفين -->
+            <div class="table-container">
+                <table class="data-table" id="employeesTable">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>الهوية الوطنية</th>
+                            <th>رقم الموظف</th>
+                            <th>الوظيفة</th>
+                            <th>الجنسية</th>
+                            <th>الإدارة</th>
+                            <th>المرفقات</th>
+                            <th>تاريخ الإضافة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeesTableBody">
+                        <!-- البيانات ستظهر هنا -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- رسالة عدم وجود بيانات -->
+            <div id="noEmployeesMessage" style="display: none; text-align: center; padding: 40px; background: #f8f9fa; border-radius: 10px; margin-top: 20px;">
+                <div style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;">👥</div>
+                <h4 style="color: #6c757d; margin: 0 0 10px 0;">لا يوجد موظفون مسجلون</h4>
+                <p style="color: #6c757d; margin: 0 0 20px 0;">ابدأ بإضافة موظف جديد للنظام</p>
+                <button onclick="showAddEmployeeModal()" class="btn btn-success">➕ إضافة أول موظف</button>
             </div>
         </div>
 
@@ -1655,6 +1924,172 @@
             </div>
         </div>
     </div>
+
+    <!-- نوافذ منبثقة لإدارة الموظفين -->
+
+    <!-- نافذة تفاصيل الموظف -->
+    <div id="employeeDetailsModal" class="modal-overlay" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 style="margin: 0;">👤 تفاصيل الموظف</h3>
+                <span style="font-size: 1.5rem; cursor: pointer;" onclick="closeModal('employeeDetailsModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="employeeDetailsContent">
+                <!-- المحتوى سيتم ملؤه بـ JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModal('employeeDetailsModal')" class="btn btn-secondary">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إدارة الإدارات -->
+    <div id="departmentsModal" class="modal-overlay" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 style="margin: 0;">🏢 إدارة الأقسام والإدارات</h3>
+                <span style="font-size: 1.5rem; cursor: pointer;" onclick="closeModal('departmentsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 20px;">
+                    <h4>إضافة إدارة جديدة:</h4>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" id="newDepartmentName" placeholder="اسم الإدارة الجديدة..." style="flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px;">
+                        <button onclick="addNewDepartment()" class="btn btn-success">➕ إضافة</button>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>الإدارات الحالية:</h4>
+                    <div id="departmentsList" style="max-height: 300px; overflow-y: auto;">
+                        <!-- قائمة الإدارات ستظهر هنا -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModal('departmentsModal')" class="btn btn-secondary">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // وظائف إضافية للنوافذ المنبثقة
+
+        // إغلاق النافذة المنبثقة
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // إظهار نافذة تفاصيل الموظف
+        function showEmployeeDetailsModal(employee) {
+            const modal = document.getElementById('employeeDetailsModal');
+            const content = document.getElementById('employeeDetailsContent');
+
+            content.innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h4>المعلومات الأساسية:</h4>
+                        <p><strong>الاسم:</strong> ${employee.employee_name}</p>
+                        <p><strong>الهوية الوطنية:</strong> ${employee.national_id}</p>
+                        <p><strong>رقم الموظف:</strong> ${employee.employee_number || 'غير محدد'}</p>
+                        <p><strong>الوظيفة:</strong> ${employee.position}</p>
+                        <p><strong>الجنسية:</strong> ${employee.nationality}</p>
+                        <p><strong>الإدارة:</strong> ${employee.department}</p>
+                    </div>
+                    <div>
+                        <h4>معلومات إضافية:</h4>
+                        <p><strong>تاريخ الإضافة:</strong> ${new Date(employee.created_at).toLocaleDateString('ar-SA')}</p>
+                        <p><strong>آخر تحديث:</strong> ${new Date(employee.updated_at).toLocaleDateString('ar-SA')}</p>
+                        <p><strong>عدد المرفقات:</strong> ${employee.attachments_count || 0}</p>
+                        <p><strong>المرفقات المكتملة:</strong> ${employee.completed_attachments || 0}</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; text-align: center;">
+                    <button onclick="editEmployee(${employee.id}); closeModal('employeeDetailsModal')" class="btn btn-primary">✏️ تعديل</button>
+                    <button onclick="manageAttachments(${employee.id}); closeModal('employeeDetailsModal')" class="btn btn-warning">📎 إدارة المرفقات</button>
+                    <button onclick="generateEmployeeQR(${employee.id})" class="btn btn-success">📱 QR Code</button>
+                </div>
+            `;
+
+            modal.style.display = 'flex';
+        }
+
+        // إظهار نافذة إدارة الإدارات
+        function showDepartmentsModal() {
+            const modal = document.getElementById('departmentsModal');
+            modal.style.display = 'flex';
+            loadDepartmentsList();
+        }
+
+        // تحميل قائمة الإدارات
+        function loadDepartmentsList() {
+            fetch('employees_api.php?action=getDepartments')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const container = document.getElementById('departmentsList');
+                    container.innerHTML = '';
+
+                    data.departments.forEach(dept => {
+                        const deptElement = document.createElement('div');
+                        deptElement.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #f8f9fa; margin-bottom: 5px; border-radius: 5px;';
+                        deptElement.innerHTML = `
+                            <span>${dept.department_name}</span>
+                            <small style="color: #6c757d;">تاريخ الإضافة: ${new Date(dept.created_at).toLocaleDateString('ar-SA')}</small>
+                        `;
+                        container.appendChild(deptElement);
+                    });
+                } else {
+                    showNotification('خطأ في تحميل الإدارات: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('خطأ في الاتصال: ' + error.message, 'error');
+            });
+        }
+
+        // إضافة إدارة جديدة
+        function addNewDepartment() {
+            const departmentName = document.getElementById('newDepartmentName').value.trim();
+
+            if (!departmentName) {
+                showNotification('يرجى إدخال اسم الإدارة', 'error');
+                return;
+            }
+
+            fetch('employees_api.php?action=addDepartment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    department_name: departmentName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('تم إضافة الإدارة بنجاح');
+                    document.getElementById('newDepartmentName').value = '';
+                    loadDepartmentsList();
+                    loadDepartments(); // تحديث القائمة الرئيسية
+                } else {
+                    showNotification('خطأ في إضافة الإدارة: ' + data.error, 'error');
+                }
+            })
+            .catch(error => {
+                showNotification('خطأ في الاتصال: ' + error.message, 'error');
+            });
+        }
+
+        // إغلاق النوافذ عند النقر خارجها
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.style.display = 'none';
+            }
+        });
+    </script>
 
     <script src="admin.js"></script>
 </body>

@@ -39,6 +39,10 @@ function loadSectionData(sectionName) {
         case 'dashboard':
             loadDashboardData();
             break;
+        case 'employees':
+            loadEmployees();
+            loadDepartments();
+            break;
         case 'cards':
             loadCardsData();
             break;
@@ -791,6 +795,12 @@ let templateConfigurations = [];
 let currentCardsSubSection = 'cards-list';
 let hiddenDefaultFields = [];
 let defaultFieldsConfig = {};
+
+// متغيرات إدارة الموظفين
+let employees = [];
+let departments = [];
+let currentEmployee = null;
+let employeeAttachments = [];
 
 // تحميل بيانات المنشأة
 function loadOrganizationData() {
@@ -2836,10 +2846,10 @@ function createFieldManagerItem(field, index) {
     return div;
 }
 
-// متغيرات السحب والإفلات
-let isDragging = false;
-let dragElement = null;
-let dragOffset = { x: 0, y: 0 };
+// متغيرات السحب والإفلات للمحرر المرئي
+let isTemplateDragging = false;
+let templateDragElement = null;
+let templateDragOffset = { x: 0, y: 0 };
 
 // بدء السحب
 function startDragging(e) {
@@ -3186,6 +3196,567 @@ function updateEditorColors() {
 // تهيئة السحب والإفلات
 function initializeDragAndDrop() {
     // تم تنفيذها في الوظائف السابقة
+}
+
+// ===== وظائف إدارة الموظفين =====
+
+// تحميل قائمة الموظفين
+function loadEmployees() {
+    fetch('employees_api.php?action=getEmployees')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            employees = data.employees;
+            displayEmployees(employees);
+            updateEmployeeStats();
+        } else {
+            showNotification('خطأ في تحميل الموظفين: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// عرض قائمة الموظفين
+function displayEmployees(employeesList) {
+    const tableBody = document.getElementById('employeesTableBody');
+    const noDataMessage = document.getElementById('noEmployeesMessage');
+
+    if (!employeesList || employeesList.length === 0) {
+        tableBody.innerHTML = '';
+        noDataMessage.style.display = 'block';
+        document.querySelector('.table-container').style.display = 'none';
+        return;
+    }
+
+    noDataMessage.style.display = 'none';
+    document.querySelector('.table-container').style.display = 'block';
+
+    tableBody.innerHTML = '';
+
+    employeesList.forEach(employee => {
+        const row = document.createElement('tr');
+
+        // حساب حالة المرفقات
+        const attachmentsTotal = employee.attachments_count || 0;
+        const attachmentsCompleted = employee.completed_attachments || 0;
+        let attachmentStatus = '';
+        let attachmentClass = '';
+
+        if (attachmentsTotal === 0) {
+            attachmentStatus = 'لا توجد مرفقات';
+            attachmentClass = 'incomplete';
+        } else if (attachmentsCompleted === attachmentsTotal) {
+            attachmentStatus = `مكتملة (${attachmentsCompleted}/${attachmentsTotal})`;
+            attachmentClass = 'complete';
+        } else if (attachmentsCompleted > 0) {
+            attachmentStatus = `جزئية (${attachmentsCompleted}/${attachmentsTotal})`;
+            attachmentClass = 'partial';
+        } else {
+            attachmentStatus = `غير مكتملة (0/${attachmentsTotal})`;
+            attachmentClass = 'incomplete';
+        }
+
+        row.innerHTML = `
+            <td><strong>${employee.employee_name}</strong></td>
+            <td>${employee.national_id}</td>
+            <td>${employee.employee_number || '-'}</td>
+            <td>${employee.position}</td>
+            <td>${employee.nationality}</td>
+            <td>${employee.department}</td>
+            <td><span class="attachment-status ${attachmentClass}">${attachmentStatus}</span></td>
+            <td>${new Date(employee.created_at).toLocaleDateString('ar-SA')}</td>
+            <td>
+                <div style="display: flex; gap: 5px; justify-content: center;">
+                    <button onclick="viewEmployee(${employee.id})" class="btn btn-sm btn-info" title="عرض التفاصيل">👁️</button>
+                    <button onclick="editEmployee(${employee.id})" class="btn btn-sm btn-primary" title="تعديل">✏️</button>
+                    <button onclick="manageAttachments(${employee.id})" class="btn btn-sm btn-warning" title="إدارة المرفقات">📎</button>
+                    <button onclick="generateEmployeeQR(${employee.id})" class="btn btn-sm btn-success" title="QR Code">📱</button>
+                    <button onclick="deleteEmployee(${employee.id})" class="btn btn-sm btn-danger" title="حذف">🗑️</button>
+                </div>
+            </td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+// تحديث إحصائيات الموظفين
+function updateEmployeeStats() {
+    const totalEmployees = employees.length;
+    const saudiEmployees = employees.filter(emp => emp.nationality === 'سعودي').length;
+    const completedAttachments = employees.reduce((sum, emp) => sum + (emp.completed_attachments || 0), 0);
+    const uniqueDepartments = [...new Set(employees.map(emp => emp.department))].length;
+
+    document.getElementById('totalEmployees').textContent = totalEmployees;
+    document.getElementById('saudiEmployees').textContent = saudiEmployees;
+    document.getElementById('completedAttachments').textContent = completedAttachments;
+    document.getElementById('totalDepartments').textContent = uniqueDepartments;
+}
+
+// البحث في الموظفين
+function searchEmployees() {
+    const query = document.getElementById('employeeSearch').value.trim();
+
+    if (!query) {
+        displayEmployees(employees);
+        return;
+    }
+
+    fetch(`employees_api.php?action=searchEmployees&query=${encodeURIComponent(query)}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            displayEmployees(data.employees);
+        } else {
+            showNotification('خطأ في البحث: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// إظهار نافذة إضافة موظف
+function showAddEmployeeModal() {
+    loadDepartments().then(() => {
+        const modal = createEmployeeModal('إضافة موظف جديد', null);
+        document.body.appendChild(modal);
+    });
+}
+
+// إنشاء نافذة موظف (إضافة أو تعديل)
+function createEmployeeModal(title, employee = null) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+
+    const isEdit = employee !== null;
+
+    modal.innerHTML = `
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 style="margin: 0;">${title}</h3>
+                <span style="font-size: 1.5rem; cursor: pointer;" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="employeeForm">
+                    <div class="form-row">
+                        <div class="form-group required">
+                            <label>اسم الموظف:</label>
+                            <input type="text" id="employeeName" value="${employee?.employee_name || ''}" required>
+                        </div>
+                        <div class="form-group required">
+                            <label>الهوية الوطنية:</label>
+                            <input type="text" id="nationalId" value="${employee?.national_id || ''}" required maxlength="10" pattern="[0-9]{10}">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>رقم الموظف:</label>
+                            <input type="text" id="employeeNumber" value="${employee?.employee_number || ''}">
+                        </div>
+                        <div class="form-group required">
+                            <label>الوظيفة:</label>
+                            <input type="text" id="position" value="${employee?.position || ''}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group required">
+                            <label>الجنسية:</label>
+                            <select id="nationality" required>
+                                <option value="سعودي" ${employee?.nationality === 'سعودي' ? 'selected' : ''}>سعودي</option>
+                                <option value="غير سعودي" ${employee?.nationality === 'غير سعودي' ? 'selected' : ''}>غير سعودي</option>
+                            </select>
+                        </div>
+                        <div class="form-group required">
+                            <label>الإدارة:</label>
+                            <input type="text" id="department" list="departmentsList" value="${employee?.department || ''}" required>
+                            <datalist id="departmentsList">
+                                ${departments.map(dept => `<option value="${dept.department_name}">`).join('')}
+                            </datalist>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="saveEmployee(${isEdit ? employee.id : 'null'})" class="btn btn-success">💾 حفظ</button>
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" class="btn btn-secondary">إلغاء</button>
+            </div>
+        </div>
+    `;
+
+    return modal;
+}
+
+// حفظ بيانات الموظف
+function saveEmployee(employeeId = null) {
+    const formData = {
+        employee_name: document.getElementById('employeeName').value.trim(),
+        national_id: document.getElementById('nationalId').value.trim(),
+        employee_number: document.getElementById('employeeNumber').value.trim(),
+        position: document.getElementById('position').value.trim(),
+        nationality: document.getElementById('nationality').value,
+        department: document.getElementById('department').value.trim()
+    };
+
+    // التحقق من البيانات المطلوبة
+    if (!formData.employee_name || !formData.national_id || !formData.position || !formData.department) {
+        showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
+        return;
+    }
+
+    // التحقق من صحة الهوية الوطنية
+    if (!/^\d{10}$/.test(formData.national_id)) {
+        showNotification('الهوية الوطنية يجب أن تكون 10 أرقام', 'error');
+        return;
+    }
+
+    const isEdit = employeeId !== null;
+    if (isEdit) {
+        formData.id = employeeId;
+    }
+
+    const url = isEdit ? 'employees_api.php?action=updateEmployee' : 'employees_api.php?action=addEmployee';
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification(isEdit ? 'تم تحديث الموظف بنجاح' : 'تم إضافة الموظف بنجاح');
+            loadEmployees();
+            document.querySelector('.modal-overlay').remove();
+        } else {
+            showNotification('خطأ: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// تحميل قائمة الإدارات
+function loadDepartments() {
+    return fetch('employees_api.php?action=getDepartments')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            departments = data.departments;
+            return departments;
+        } else {
+            showNotification('خطأ في تحميل الإدارات: ' + data.error, 'error');
+            return [];
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+        return [];
+    });
+}
+
+// عرض تفاصيل الموظف
+function viewEmployee(employeeId) {
+    fetch(`employees_api.php?action=getEmployee&id=${employeeId}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showEmployeeDetailsModal(data.employee);
+        } else {
+            showNotification('خطأ في تحميل بيانات الموظف: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// تعديل الموظف
+function editEmployee(employeeId) {
+    fetch(`employees_api.php?action=getEmployee&id=${employeeId}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            loadDepartments().then(() => {
+                const modal = createEmployeeModal('تعديل بيانات الموظف', data.employee);
+                document.body.appendChild(modal);
+            });
+        } else {
+            showNotification('خطأ في تحميل بيانات الموظف: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// حذف الموظف
+function deleteEmployee(employeeId) {
+    const employee = employees.find(emp => emp.id === employeeId);
+    if (!employee) return;
+
+    if (!confirm(`هل أنت متأكد من حذف الموظف "${employee.employee_name}"؟\nسيتم حذف جميع المرفقات والبيانات المرتبطة به.`)) {
+        return;
+    }
+
+    fetch('employees_api.php?action=deleteEmployee', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `id=${employeeId}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('تم حذف الموظف بنجاح');
+            loadEmployees();
+        } else {
+            showNotification('خطأ في حذف الموظف: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// إدارة مرفقات الموظف
+function manageAttachments(employeeId) {
+    fetch(`employees_api.php?action=getEmployeeAttachments&employee_id=${employeeId}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showAttachmentsModal(employeeId, data.attachments);
+        } else {
+            showNotification('خطأ في تحميل المرفقات: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// إظهار نافذة إدارة المرفقات
+function showAttachmentsModal(employeeId, attachments) {
+    const employee = employees.find(emp => emp.id === employeeId);
+    if (!employee) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+
+    modal.innerHTML = `
+        <div class="modal-dialog" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 style="margin: 0;">📎 إدارة مرفقات الموظف: ${employee.employee_name}</h3>
+                <span style="font-size: 1.5rem; cursor: pointer;" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 20px;">
+                    <h4>المرفقات الحالية:</h4>
+                    <div class="attachments-list" id="attachmentsList">
+                        ${attachments.map(att => `
+                            <div class="attachment-item ${att.status === 'موجود' ? 'available' : 'missing'}">
+                                <div>
+                                    <strong>${att.attachment_name}</strong>
+                                    <br><small>${att.is_default ? 'افتراضي' : 'مخصص'}</small>
+                                </div>
+                                <div style="display: flex; gap: 5px; align-items: center;">
+                                    <span style="font-size: 1.2rem;">${att.status === 'موجود' ? '✅' : '❌'}</span>
+                                    <button onclick="toggleAttachmentStatus(${att.id}, '${att.status === 'موجود' ? 'غير موجود' : 'موجود'}')"
+                                            class="btn btn-sm ${att.status === 'موجود' ? 'btn-warning' : 'btn-success'}">
+                                        ${att.status === 'موجود' ? 'تعيين كمفقود' : 'تعيين كموجود'}
+                                    </button>
+                                    ${att.file_path ? `<a href="${att.file_path}" target="_blank" class="btn btn-sm btn-info">عرض</a>` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div style="border-top: 1px solid #dee2e6; padding-top: 20px;">
+                    <h4>إضافة مرفق جديد:</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>اسم المرفق:</label>
+                            <input type="text" id="newAttachmentName" placeholder="مثال: شهادة التخرج">
+                        </div>
+                        <div class="form-group">
+                            <label>الملف:</label>
+                            <input type="file" id="newAttachmentFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        </div>
+                    </div>
+                    <button onclick="addNewAttachment(${employeeId})" class="btn btn-success">➕ إضافة المرفق</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" class="btn btn-secondary">إغلاق</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+}
+
+// تغيير حالة المرفق
+function toggleAttachmentStatus(attachmentId, newStatus) {
+    fetch('employees_api.php?action=updateAttachmentStatus', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            attachment_id: attachmentId,
+            status: newStatus
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('تم تحديث حالة المرفق');
+            // إعادة تحميل المرفقات
+            const modal = document.querySelector('.modal-overlay');
+            const employeeId = modal.querySelector('[onclick*="addNewAttachment"]').onclick.toString().match(/\d+/)[0];
+            modal.remove();
+            manageAttachments(parseInt(employeeId));
+            loadEmployees(); // لتحديث الإحصائيات
+        } else {
+            showNotification('خطأ في تحديث المرفق: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// إضافة مرفق جديد
+function addNewAttachment(employeeId) {
+    const attachmentName = document.getElementById('newAttachmentName').value.trim();
+    const fileInput = document.getElementById('newAttachmentFile');
+
+    if (!attachmentName) {
+        showNotification('يرجى إدخال اسم المرفق', 'error');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('employee_id', employeeId);
+    formData.append('attachment_name', attachmentName);
+
+    if (fileInput.files[0]) {
+        formData.append('file', fileInput.files[0]);
+    }
+
+    fetch('employees_api.php?action=uploadAttachment', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('تم إضافة المرفق بنجاح');
+            // إعادة تحميل المرفقات
+            const modal = document.querySelector('.modal-overlay');
+            modal.remove();
+            manageAttachments(employeeId);
+            loadEmployees(); // لتحديث الإحصائيات
+        } else {
+            showNotification('خطأ في إضافة المرفق: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// إنشاء QR Code للموظف
+function generateEmployeeQR(employeeId) {
+    fetch(`employees_api.php?action=generateQRCode&employee_id=${employeeId}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showQRCodeModal(data.qr_data, data.qr_info);
+        } else {
+            showNotification('خطأ في إنشاء QR Code: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        showNotification('خطأ في الاتصال: ' + error.message, 'error');
+    });
+}
+
+// إظهار نافذة QR Code
+function showQRCodeModal(qrData, qrInfo) {
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+
+    modal.innerHTML = `
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 style="margin: 0;">📱 QR Code للموظف: ${qrInfo.employee_name}</h3>
+                <span style="font-size: 1.5rem; cursor: pointer;" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="qr-code-container">
+                    <div id="qrCodeCanvas"></div>
+                    <p style="margin-top: 10px; color: #6c757d;">امسح الكود للحصول على معلومات الموظف</p>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h4>معلومات مضمنة في الكود:</h4>
+                    <ul style="text-align: right;">
+                        <li><strong>الاسم:</strong> ${qrInfo.employee_name}</li>
+                        <li><strong>الهوية:</strong> ${qrInfo.national_id}</li>
+                        <li><strong>الوظيفة:</strong> ${qrInfo.position}</li>
+                        <li><strong>الإدارة:</strong> ${qrInfo.department}</li>
+                        <li><strong>حالة المرفقات:</strong></li>
+                        <ul>
+                            ${qrInfo.attachments.map(att => `<li>${att.name}: ${att.status}</li>`).join('')}
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="downloadQRCode()" class="btn btn-primary">💾 تحميل الكود</button>
+                <button onclick="this.parentElement.parentElement.parentElement.remove()" class="btn btn-secondary">إغلاق</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // إنشاء QR Code باستخدام مكتبة خارجية أو Canvas
+    generateQRCodeCanvas(qrData, 'qrCodeCanvas');
+}
+
+// إنشاء QR Code على Canvas (تنفيذ بسيط)
+function generateQRCodeCanvas(data, containerId) {
+    const container = document.getElementById(containerId);
+
+    // هنا يمكن استخدام مكتبة QR Code مثل qrcode.js
+    // للتبسيط، سنعرض النص فقط
+    container.innerHTML = `
+        <div style="width: 200px; height: 200px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; background: white; margin: 0 auto;">
+            <div style="text-align: center; font-size: 0.7rem; padding: 10px;">
+                <div style="font-weight: bold; margin-bottom: 5px;">QR Code</div>
+                <div style="font-size: 0.6rem; color: #666;">البيانات مشفرة</div>
+            </div>
+        </div>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">
+            ملاحظة: لعرض QR Code حقيقي، يتطلب تضمين مكتبة qrcode.js
+        </p>
+    `;
+}
+
+// تحميل QR Code
+function downloadQRCode() {
+    showNotification('ميزة التحميل ستكون متاحة مع تضمين مكتبة QR Code', 'info');
 }
 
 // ===== وظائف إدارة الخلفيات =====

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قالب مشهد</title>
+    <style>
+        body {
+            font-family: 'Cairo', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            direction: rtl;
+        }
+        
+        .mashhad-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            min-height: 600px;
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .header .org-name {
+            color: #666;
+            margin: 5px 0;
+            font-size: 1.1rem;
+        }
+        
+        .employee-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            border: 2px solid #2c3e50;
+        }
+        
+        .employee-table th {
+            background: rgba(44, 62, 80, 0.1);
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid #2c3e50;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .employee-table td {
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid #2c3e50;
+            background: white;
+        }
+        
+        .letter-content {
+            margin: 30px 0;
+            line-height: 2;
+        }
+        
+        .letter-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .letter-body {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .purpose {
+            font-size: 1.1rem;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .signature-section {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            text-align: center;
+        }
+        
+        .signature-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .signature-name {
+            color: #666;
+        }
+        
+        .form-controls {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .employee-search {
+            margin-bottom: 20px;
+        }
+        
+        .employee-search input {
+            width: 300px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .qr-section {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            text-align: center;
+        }
+        
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #666;
+        }
+        
+        @media print {
+            .form-controls,
+            .employee-search,
+            .btn {
+                display: none !important;
+            }
+            
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .mashhad-container {
+                box-shadow: none;
+                border: none;
+                margin: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-controls">
+        <h3>🔍 البحث عن موظف</h3>
+        <div class="employee-search">
+            <input type="text" id="employeeSearchInput" placeholder="ابحث بالهوية الوطنية أو الاسم..." onkeyup="searchEmployee()">
+            <button onclick="searchEmployee()" class="btn btn-primary">بحث</button>
+            <button onclick="clearEmployeeData()" class="btn btn-secondary">مسح</button>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label>عنوان الخطاب:</label>
+                <input type="text" id="letterTitle" value="سعادة مدير إدارة الموارد البشرية المحترم" onchange="updateLetterTitle()">
+            </div>
+            <div class="form-group">
+                <label>الغرض:</label>
+                <input type="text" id="purpose" value="نرجو المتابعة / إكمال اللازم" onchange="updatePurpose()">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>نص الخطاب:</label>
+            <textarea id="letterContent" rows="3" onchange="updateLetterContent()">تشهد إدارة [اسم الإدارة] أن الموظف المذكور أعلاه يعمل لدينا ونرجو منكم التكرم بالموافقة على طلبه.</textarea>
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="generateMashhad()" class="btn btn-success">📄 إنشاء المشهد</button>
+            <button onclick="printMashhad()" class="btn btn-primary">🖨️ طباعة</button>
+            <button onclick="saveMashhad()" class="btn btn-secondary">💾 حفظ</button>
+        </div>
+    </div>
+
+    <div class="mashhad-container" id="mashhadContainer">
+        <!-- QR Code Section -->
+        <div class="qr-section" id="qrSection" style="display: none;">
+            <div class="qr-code" id="qrCode">QR Code</div>
+            <label style="margin-top: 5px; font-size: 0.8rem;">
+                <input type="checkbox" id="includeQR" onchange="toggleQRCode()"> تضمين QR Code
+            </label>
+        </div>
+        
+        <!-- Header -->
+        <div class="header">
+            <h1>مشهد</h1>
+            <div class="org-name">مركز الخدمات الطبية الشرعية</div>
+            <div class="org-name">منطقة الحدود الشمالية - عرعر</div>
+        </div>
+        
+        <!-- Employee Table -->
+        <table class="employee-table">
+            <thead>
+                <tr>
+                    <th>اسم الموظف</th>
+                    <th>الهوية الوطنية</th>
+                    <th>رقم الموظف</th>
+                    <th>الوظيفة</th>
+                    <th>الجنسية</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="displayEmployeeName">-</td>
+                    <td id="displayNationalId">-</td>
+                    <td id="displayEmployeeNumber">-</td>
+                    <td id="displayPosition">-</td>
+                    <td id="displayNationality">-</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Letter Content -->
+        <div class="letter-content">
+            <div class="letter-title" id="displayLetterTitle">سعادة مدير إدارة الموارد البشرية المحترم</div>
+            <div class="letter-body" id="displayLetterContent">
+                تشهد إدارة [اسم الإدارة] أن الموظف المذكور أعلاه يعمل لدينا ونرجو منكم التكرم بالموافقة على طلبه.
+            </div>
+            <div class="purpose" id="displayPurpose">نرجو المتابعة / إكمال اللازم</div>
+        </div>
+        
+        <!-- Signature -->
+        <div class="signature-section">
+            <div class="signature-title">مدير مركز الخدمات الطبية الشرعية</div>
+            <div class="signature-name">د. فواز جمال الديدب</div>
+        </div>
+    </div>
+
+    <script src="mashhad_script.js"></script>
+</body>
+</html>
