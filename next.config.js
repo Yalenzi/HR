@@ -2,8 +2,18 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  experimental: {
-    appDir: false
+  images: {
+    domains: ['localhost'],
+    unoptimized: true
+  },
+  // إعدادات للطباعة وتصدير الصور
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      canvas: false,
+      encoding: false
+    };
+    return config;
   }
 }
 

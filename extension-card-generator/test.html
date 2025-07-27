@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار النظام</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 اختبار مولد البطاقات</h1>
+    
+    <div class="test-section">
+        <h3>1. اختبار الاتصال بالخادم</h3>
+        <button onclick="testConnection()">اختبار GET</button>
+        <button onclick="testPost()">اختبار POST</button>
+        <div id="connectionResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. اختبار إنشاء بطاقة</h3>
+        <button onclick="testCardGeneration()">إنشاء بطاقة تجريبية</button>
+        <div id="cardResult"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. معلومات النظام</h3>
+        <button onclick="getSystemInfo()">معلومات الخادم</button>
+        <div id="systemInfo"></div>
+    </div>
+
+    <script>
+        function showResult(elementId, content, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<pre class="${isSuccess ? 'success' : 'error'}">${content}</pre>`;
+        }
+
+        async function testConnection() {
+            try {
+                const response = await fetch('generate.php', {
+                    method: 'GET'
+                });
+                const result = await response.text();
+                showResult('connectionResult', `GET Response:\n${result}`, response.ok);
+            } catch (error) {
+                showResult('connectionResult', `GET Error:\n${error.message}`, false);
+            }
+        }
+
+        async function testPost() {
+            try {
+                const testData = {
+                    line1: 'اختبار',
+                    line2: 'اختبار',
+                    line3: 'اختبار',
+                    employeeName: 'اختبار',
+                    department: 'اختبار',
+                    position: 'اختبار',
+                    organization: 'اختبار',
+                    startDate: 'اختبار',
+                    endDate: 'اختبار',
+                    location: 'اختبار',
+                    signature: 'اختبار',
+                    template: 'template1'
+                };
+
+                const response = await fetch('generate.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.text();
+                showResult('connectionResult', `POST Response:\n${result}`, response.ok);
+            } catch (error) {
+                showResult('connectionResult', `POST Error:\n${error.message}`, false);
+            }
+        }
+
+        async function testCardGeneration() {
+            try {
+                const testData = {
+                    line1: 'بكل الحب والتقدير',
+                    line2: 'أتشرف بإعلامكم',
+                    line3: 'بتمديد تكليفي في منصبي الحالي',
+                    employeeName: 'أحمد محمد العلي',
+                    department: 'إدارة الموارد البشرية',
+                    position: 'مدير إدارة',
+                    organization: 'وزارة التعليم',
+                    startDate: 'الموافق ١٤٤٥/٠٣/١٥ هـ',
+                    endDate: 'حتى تاريخ ١٤٤٦/٠٣/١٥ هـ',
+                    location: 'الرياض - المملكة العربية السعودية',
+                    signature: 'مع أطيب التحيات',
+                    template: 'template1'
+                };
+
+                const response = await fetch('generate.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.text();
+                showResult('cardResult', `Card Generation Response:\n${result}`, response.ok);
+                
+                // إذا نجح، حاول تحميل الملف
+                if (response.ok) {
+                    try {
+                        const jsonResult = JSON.parse(result);
+                        if (jsonResult.success && jsonResult.file_url) {
+                            const link = document.createElement('a');
+                            link.href = jsonResult.file_url;
+                            link.download = jsonResult.filename;
+                            link.click();
+                        }
+                    } catch (e) {
+                        console.log('Could not parse JSON or download file');
+                    }
+                }
+            } catch (error) {
+                showResult('cardResult', `Card Generation Error:\n${error.message}`, false);
+            }
+        }
+
+        async function getSystemInfo() {
+            try {
+                const response = await fetch('generate.php?info=1', {
+                    method: 'GET'
+                });
+                const result = await response.text();
+                showResult('systemInfo', `System Info:\n${result}`, response.ok);
+            } catch (error) {
+                showResult('systemInfo', `System Info Error:\n${error.message}`, false);
+            }
+        }
+
+        // اختبار تلقائي عند تحميل الصفحة
+        window.onload = function() {
+            testConnection();
+        };
+    </script>
+</body>
+</html>

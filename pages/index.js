@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import LetterForm from '../components/LetterForm';
 import LetterPreview from '../components/LetterPreview';
@@ -6,6 +6,7 @@ import LetterPreview from '../components/LetterPreview';
 export default function Home() {
   const [letterData, setLetterData] = useState(null);
   const [letterType, setLetterType] = useState('');
+  const [mounted, setMounted] = useState(false);
 
   const letterTypes = [
     { id: 'certificate', name: 'شهادة عمل', icon: '📄' },
@@ -15,6 +16,11 @@ export default function Home() {
     { id: 'congratulations', name: 'قالب التهنئة', icon: '🎉' },
     { id: 'experience', name: 'شهادة خبرة', icon: '🏆' }
   ];
+
+  // إصلاح مشكلة hydration
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
@@ -38,6 +44,27 @@ export default function Home() {
             >
               <span>🎉</span>
               <span>قوالب التهنئة</span>
+            </Link>
+            <Link
+              href="/extension-congratulations"
+              className="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 space-x-reverse"
+            >
+              <span>🏆</span>
+              <span>تهنئة تمديد التكليف</span>
+            </Link>
+            <Link
+              href="/simple-extension"
+              className="bg-teal-600 hover:bg-teal-700 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 space-x-reverse"
+            >
+              <span>🖼️</span>
+              <span>قالب PNG مبسط</span>
+            </Link>
+            <Link
+              href="/extension-form"
+              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors flex items-center space-x-2 space-x-reverse"
+            >
+              <span>📝</span>
+              <span>نموذج التمديد</span>
             </Link>
             <Link
               href="/admin/dashboard"

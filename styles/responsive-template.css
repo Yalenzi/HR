@@ -1,0 +1,406 @@
+/* تحسينات متجاوبة لقالب تمديد التكليف */
+
+/* متغيرات CSS للألوان والمقاييس */
+:root {
+  --template-primary: #16a34a;
+  --template-secondary: #22c55e;
+  --template-accent: #f59e0b;
+  --template-text: #1f2937;
+  --template-bg: #f9fafb;
+  --template-border: #e5e7eb;
+  --template-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* تحسينات عامة للأداء */
+.template-container {
+  contain: layout style paint;
+  will-change: transform;
+}
+
+.template-background {
+  contain: strict;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* تحسينات للجوال (أقل من 768px) */
+@media (max-width: 767px) {
+  .template-container {
+    padding: 0.75rem;
+    overflow-x: hidden;
+  }
+  
+  .template-controls {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+  }
+  
+  .template-controls button {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .coordinate-editor {
+    padding: 1rem;
+    margin: 0.5rem 0;
+  }
+  
+  .coordinate-editor h3 {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+  
+  .coordinate-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  
+  .coordinate-grid input {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .template-scroll-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .draggable-element {
+    touch-action: pan-x pan-y;
+  }
+  
+  /* تحسينات النصوص للجوال */
+  .template-text {
+    word-break: break-word;
+    hyphens: auto;
+  }
+}
+
+/* تحسينات للتابلت (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .template-container {
+    padding: 1.25rem;
+  }
+  
+  .template-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  
+  .template-controls button {
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
+    min-width: 120px;
+  }
+  
+  .coordinate-editor {
+    padding: 1.5rem;
+  }
+  
+  .coordinate-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .coordinate-grid input {
+    padding: 0.75rem;
+  }
+}
+
+/* تحسينات للابتوب (1024px - 1919px) */
+@media (min-width: 1024px) and (max-width: 1919px) {
+  .template-container {
+    padding: 1.5rem;
+  }
+  
+  .template-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .template-controls button {
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    min-width: 140px;
+  }
+  
+  .coordinate-editor {
+    padding: 2rem;
+  }
+  
+  .coordinate-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  
+  .coordinate-grid input {
+    padding: 0.75rem;
+  }
+}
+
+/* تحسينات لسطح المكتب (1920px وأكبر) */
+@media (min-width: 1920px) {
+  .template-container {
+    padding: 2rem;
+    max-width: 1600px;
+  }
+  
+  .template-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+  
+  .template-controls button {
+    padding: 1rem 1.5rem;
+    font-size: 1.0625rem;
+    min-width: 160px;
+  }
+  
+  .coordinate-editor {
+    padding: 2.5rem;
+  }
+  
+  .coordinate-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .coordinate-grid input {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* تحسينات للشاشات عالية الدقة */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .template-background {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  .template-text {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* تحسينات للأجهزة اللمسية */
+@media (hover: none) and (pointer: coarse) {
+  .template-controls button {
+    min-height: 48px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .draggable-element {
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .coordinate-grid input {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* تحسين التفاعل اللمسي */
+  .draggable-element:active {
+    transform: scale(1.02);
+    transition: transform 0.1s ease;
+  }
+}
+
+/* تحسينات السحب والإفلات */
+.draggable-element {
+  transition: all 0.2s ease;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+.draggable-element:active {
+  cursor: grabbing;
+  z-index: 1000;
+}
+
+.draggable-element.dragging {
+  cursor: grabbing !important;
+  z-index: 1000;
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transition: none;
+}
+
+.draggable-element * {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* تحسين مظهر الحدود عند التحرير */
+.draggable-element.border-blue-500 {
+  border-style: dashed !important;
+  animation: pulse-border 2s infinite;
+}
+
+.draggable-element.border-green-500 {
+  border-style: dashed !important;
+  animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    border-opacity: 1;
+  }
+  50% {
+    border-opacity: 0.5;
+  }
+}
+
+/* تحسين مظهر معلومات الإحداثيات */
+.coordinate-info {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+/* تحسينات الحركة والانتقالات */
+.template-controls button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.template-controls button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--template-shadow);
+}
+
+.template-controls button:active {
+  transform: translateY(0);
+}
+
+.draggable-element {
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.coordinate-editor {
+  transition: all 0.3s ease;
+}
+
+/* تحسينات التمرير */
+.template-scroll-container {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--template-border) transparent;
+}
+
+.template-scroll-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.template-scroll-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.template-scroll-container::-webkit-scrollbar-thumb {
+  background-color: var(--template-border);
+  border-radius: 4px;
+}
+
+.template-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--template-primary);
+}
+
+/* تحسينات الطباعة */
+@media print {
+  .template-container {
+    padding: 0;
+    margin: 0;
+    max-width: none;
+  }
+  
+  .template-controls,
+  .coordinate-editor {
+    display: none !important;
+  }
+  
+  .template-background {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  .template-text {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+/* تحسينات الوضع المظلم */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --template-bg: #111827;
+    --template-text: #f9fafb;
+    --template-border: #374151;
+  }
+  
+  .coordinate-editor {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+}
+
+/* تحسينات إمكانية الوصول */
+@media (prefers-reduced-motion: reduce) {
+  .template-controls button,
+  .draggable-element,
+  .coordinate-editor {
+    transition: none;
+  }
+  
+  .template-scroll-container {
+    scroll-behavior: auto;
+  }
+}
+
+/* تحسينات للتباين العالي */
+@media (prefers-contrast: high) {
+  .template-controls button {
+    border: 2px solid currentColor;
+  }
+  
+  .draggable-element {
+    border-width: 3px !important;
+  }
+  
+  .coordinate-editor {
+    border-width: 2px;
+  }
+}

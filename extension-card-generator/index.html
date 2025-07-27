@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد بطاقات تهنئة تمديد التكليف</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- الهيدر -->
+        <header class="header">
+            <div class="logo">
+                <h1>🎉 مولد بطاقات التهنئة</h1>
+                <p>قوالب احترافية لتهنئة تمديد التكليف</p>
+            </div>
+        </header>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <!-- نموذج إدخال البيانات -->
+            <section class="form-section">
+                <h2>📝 بيانات البطاقة</h2>
+                <form id="cardForm" class="card-form">
+                    <div class="form-group">
+                        <label for="line1">السطر الأول:</label>
+                        <input type="text" id="line1" name="line1" value="بكل الحب والتقدير" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="line2">السطر الثاني:</label>
+                        <input type="text" id="line2" name="line2" value="أتشرف بإعلامكم" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="line3">السطر الثالث:</label>
+                        <input type="text" id="line3" name="line3" value="بتمديد تكليفي في منصبي الحالي" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="employeeName">اسم الموظف:</label>
+                            <input type="text" id="employeeName" name="employeeName" value="محمد إبراهيم العلي" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="department">الإدارة/القسم:</label>
+                            <input type="text" id="department" name="department" value="إدارة الموارد البشرية" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="position">المنصب/الوظيفة:</label>
+                            <input type="text" id="position" name="position" value="مدير إدارة" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="organization">المؤسسة/الجهة:</label>
+                            <input type="text" id="organization" name="organization" value="وزارة التعليم" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="startDate">تاريخ البداية:</label>
+                            <input type="text" id="startDate" name="startDate" value="الموافق ١٤٤٥/٠٣/١٥ هـ" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="endDate">تاريخ النهاية:</label>
+                            <input type="text" id="endDate" name="endDate" value="حتى تاريخ ١٤٤٦/٠٣/١٥ هـ" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="location">الموقع:</label>
+                            <input type="text" id="location" name="location" value="الرياض - المملكة العربية السعودية" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signature">التوقيع/الخاتمة:</label>
+                            <input type="text" id="signature" name="signature" value="مع أطيب التحيات" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="employeePhoto">صورة الموظف:</label>
+                        <input type="file" id="employeePhoto" name="employeePhoto" accept="image/*">
+                        <div id="photoPreview" class="photo-preview"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="template">اختر القالب:</label>
+                        <select id="template" name="template">
+                            <option value="template1">القالب الأزرق الكلاسيكي</option>
+                            <option value="template2">القالب الأخضر الحديث</option>
+                            <option value="template3">القالب الذهبي الفاخر</option>
+                        </select>
+                    </div>
+
+                    <!-- أزرار العمل -->
+                    <div class="action-buttons">
+                        <button type="button" id="previewBtn" class="btn btn-primary">
+                            👁️ معاينة البطاقة
+                        </button>
+                        <button type="submit" id="generateBtn" class="btn btn-success">
+                            📥 تحميل البطاقة
+                        </button>
+                        <button type="button" id="resetBtn" class="btn btn-secondary">
+                            🔄 إعادة تعيين
+                        </button>
+                    </div>
+
+                    <!-- رابط لوحة التحكم -->
+                    <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e1e8ed;">
+                        <a href="admin.html" class="btn" style="background: #6c757d; color: white; text-decoration: none;">
+                            🎛️ لوحة التحكم الإدارية
+                        </a>
+                    </div>
+                </form>
+            </section>
+
+            <!-- قسم المعاينة -->
+            <section class="preview-section" id="previewSection">
+                <h2>👁️ معاينة البطاقة</h2>
+                <div id="cardPreview" class="card-preview">
+                    <!-- سيتم إدراج المعاينة هنا -->
+                </div>
+            </section>
+        </main>
+
+        <!-- الإحصائيات -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number" id="cardCounter">12,847</span>
+                    <span class="stat-label">بطاقة تم إنشاؤها</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">قوالب متاحة</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">مجاني</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- الفوتر -->
+        <footer class="footer">
+            <p>&copy; 2024 مولد بطاقات التهنئة - جميع الحقوق محفوظة</p>
+            <p>تصميم وبرمجة: <a href="#" target="_blank">فريق التطوير</a></p>
+        </footer>
+    </div>
+
+    <!-- نافذة المعاينة المنبثقة -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>معاينة البطاقة</h3>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="modalPreview" class="modal-preview">
+                    <!-- المعاينة المكبرة -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="downloadFromModal" class="btn btn-success">
+                    📥 تحميل البطاقة
+                </button>
+                <button type="button" id="closeModalBtn" class="btn btn-secondary">
+                    إغلاق
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- رسائل التنبيه -->
+    <div id="notification" class="notification">
+        <span id="notificationText"></span>
+        <button id="closeNotification">&times;</button>
+    </div>
+
+    <!-- شاشة التحميل -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>جاري إنشاء البطاقة...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
