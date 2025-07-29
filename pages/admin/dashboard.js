@@ -11,11 +11,11 @@ import StatsCards from '../../components/admin/StatsCards';
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [settings, setSettings] = useState({
-    centerManagerName: 'د. محمد أحمد السعيد',
-    facilityName: 'مستشفى الملك فهد التخصصي',
-    facilityAddress: 'الرياض - المملكة العربية السعودية',
+    centerManagerName: 'د.فواز الديدب',
+    facilityName: 'مركز الخدمات الطبية الشرعية',
+    facilityAddress: 'عرعر',
     facilityPhone: '+966-11-1234567',
-    facilityEmail: 'info@kfsh.med.sa',
+    facilityEmail: 'aburakan4551@gmail.com',
     logoUrl: '/images/ministry-logo.png'
   });
 
