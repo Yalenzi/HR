@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الموارد البشرية - مولد بطاقات الموظفين</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            margin: 10px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .features {
+            margin-top: 2rem;
+            text-align: right;
+        }
+        .feature {
+            margin: 10px 0;
+            color: #555;
+        }
+        .feature::before {
+            content: "✓ ";
+            color: #4CAF50;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏢 نظام إدارة الموارد البشرية</h1>
+        <p>مرحباً بك في نظام مولد بطاقات الموظفين المتطور</p>
+        
+        <a href="extension-card-generator/index.html" class="btn">🚀 دخول النظام</a>
+        <a href="extension-card-generator/admin.html" class="btn">⚙️ لوحة الإدارة</a>
+        
+        <div class="features">
+            <div class="feature">إنشاء بطاقات الموظفين بسهولة</div>
+            <div class="feature">قوالب متعددة ومخصصة</div>
+            <div class="feature">إدارة بيانات الموظفين</div>
+            <div class="feature">تصدير البطاقات بجودة عالية</div>
+            <div class="feature">واجهة سهلة الاستخدام</div>
+        </div>
+    </div>
+
+    <script>
+        // Auto redirect to main application after 3 seconds if no interaction
+        setTimeout(() => {
+            if (!document.hidden) {
+                window.location.href = 'extension-card-generator/index.html';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

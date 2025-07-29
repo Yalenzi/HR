@@ -1,0 +1,25 @@
+[build]
+  # No build command needed for static PHP files
+  command = ""
+  # Publish the extension-card-generator directory
+  publish = "extension-card-generator"
+
+[build.environment]
+  # Disable Next.js detection
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+
+# Redirect all requests to index.html for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Handle PHP files (Note: Netlify doesn't support PHP natively)
+# You'll need to convert PHP to static files or use Netlify Functions
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
