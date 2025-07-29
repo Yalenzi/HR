@@ -1,0 +1,68 @@
+# إعدادات ترميز UTF-8 للنصوص العربية
+AddDefaultCharset UTF-8
+
+# تعيين ترميز UTF-8 لجميع الملفات النصية
+<IfModule mod_mime.c>
+    AddCharset UTF-8 .html
+    AddCharset UTF-8 .htm
+    AddCharset UTF-8 .php
+    AddCharset UTF-8 .js
+    AddCharset UTF-8 .css
+    AddCharset UTF-8 .txt
+    AddCharset UTF-8 .md
+    AddCharset UTF-8 .json
+</IfModule>
+
+# إعدادات Content-Type مع UTF-8
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html|htm|php)$">
+        Header set Content-Type "text/html; charset=UTF-8"
+    </FilesMatch>
+    
+    <FilesMatch "\.(js)$">
+        Header set Content-Type "application/javascript; charset=UTF-8"
+    </FilesMatch>
+    
+    <FilesMatch "\.(css)$">
+        Header set Content-Type "text/css; charset=UTF-8"
+    </FilesMatch>
+    
+    <FilesMatch "\.(json)$">
+        Header set Content-Type "application/json; charset=UTF-8"
+    </FilesMatch>
+</IfModule>
+
+# منع مشاكل الترميز في المتصفحات القديمة
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # إضافة UTF-8 BOM للملفات العربية إذا لزم الأمر
+    RewriteCond %{REQUEST_FILENAME} \.(html|htm|php)$
+    RewriteRule ^(.*)$ - [E=UTF8:1]
+</IfModule>
+
+# ضغط الملفات النصية (اختياري)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+</IfModule>
+
+# تعيين اللغة العربية كافتراضية
+DefaultLanguage ar
+
+# منع عرض قائمة الملفات
+Options -Indexes
+
+# حماية الملفات الحساسة
+<Files "*.db">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+<Files ".htaccess">
+    Order Allow,Deny
+    Deny from all
+</Files>

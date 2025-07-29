@@ -1,0 +1,366 @@
+/**
+ * ملف CSS للتصميم المتجاوب
+ * تحسينات شاملة للأجهزة المحمولة والأجهزة اللوحية
+ */
+
+/* ===== إعدادات أساسية للتصميم المتجاوب ===== */
+
+/* تحسين viewport للأجهزة المحمولة */
+html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* تحسين الصور للتصميم المتجاوب */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* تحسين الجداول للشاشات الصغيرة */
+.responsive-table {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.responsive-table table {
+    min-width: 600px;
+}
+
+/* ===== نقاط التوقف (Breakpoints) ===== */
+
+/* الشاشات الصغيرة جداً (أقل من 320px) */
+@media (max-width: 319px) {
+    .container {
+        padding: 8px;
+    }
+    
+    .btn {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+    
+    h1 { font-size: 1.3rem; }
+    h2 { font-size: 1.1rem; }
+    h3 { font-size: 1rem; }
+}
+
+/* الهواتف الصغيرة (320px - 480px) */
+@media (min-width: 320px) and (max-width: 480px) {
+    .mobile-hidden {
+        display: none !important;
+    }
+    
+    .mobile-full-width {
+        width: 100% !important;
+    }
+    
+    .mobile-center {
+        text-align: center !important;
+    }
+    
+    .mobile-stack {
+        flex-direction: column !important;
+    }
+    
+    .mobile-gap-small {
+        gap: 10px !important;
+    }
+}
+
+/* الهواتف الكبيرة والأجهزة اللوحية الصغيرة (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .tablet-hidden {
+        display: none !important;
+    }
+    
+    .tablet-full-width {
+        width: 100% !important;
+    }
+    
+    .tablet-half-width {
+        width: 50% !important;
+    }
+    
+    .tablet-center {
+        text-align: center !important;
+    }
+}
+
+/* الأجهزة اللوحية الكبيرة (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .desktop-small-hidden {
+        display: none !important;
+    }
+    
+    .desktop-small-center {
+        text-align: center !important;
+    }
+}
+
+/* ===== مكونات متجاوبة مخصصة ===== */
+
+/* أزرار متجاوبة */
+.responsive-btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    min-width: 44px;
+}
+
+@media (max-width: 480px) {
+    .responsive-btn {
+        width: 100%;
+        margin: 5px 0;
+        padding: 15px 20px;
+        font-size: 1.1rem;
+    }
+}
+
+/* نماذج متجاوبة */
+.responsive-form {
+    display: grid;
+    gap: 15px;
+}
+
+@media (min-width: 768px) {
+    .responsive-form {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .responsive-form {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.responsive-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px; /* منع التكبير في iOS */
+    transition: border-color 0.3s ease;
+}
+
+.responsive-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+/* شبكة متجاوبة */
+.responsive-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 480px) {
+    .responsive-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .responsive-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .responsive-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* بطاقات متجاوبة */
+.responsive-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width: 480px) {
+    .responsive-card {
+        padding: 15px;
+        border-radius: 8px;
+    }
+}
+
+@media (hover: hover) {
+    .responsive-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* نوافذ منبثقة متجاوبة */
+.responsive-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.responsive-modal-content {
+    background: white;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+    .responsive-modal {
+        padding: 10px;
+    }
+    
+    .responsive-modal-content {
+        border-radius: 8px;
+        max-height: 95vh;
+    }
+}
+
+/* ===== تحسينات للمس ===== */
+
+@media (hover: none) and (pointer: coarse) {
+    /* تحسين الأزرار للمس */
+    .btn,
+    .responsive-btn,
+    button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* إزالة تأثيرات hover */
+    .btn:hover,
+    .responsive-btn:hover,
+    .responsive-card:hover {
+        transform: none;
+    }
+    
+    /* إضافة تأثيرات active */
+    .btn:active,
+    .responsive-btn:active {
+        transform: scale(0.95);
+    }
+    
+    .responsive-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* ===== تحسينات الطباعة ===== */
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .print-full-width {
+        width: 100% !important;
+    }
+    
+    .print-break-before {
+        page-break-before: always;
+    }
+    
+    .print-break-after {
+        page-break-after: always;
+    }
+    
+    .print-no-break {
+        page-break-inside: avoid;
+    }
+}
+
+/* ===== فئات مساعدة للتصميم المتجاوب ===== */
+
+/* إخفاء/إظهار حسب حجم الشاشة */
+.hide-mobile { display: block; }
+.show-mobile { display: none; }
+
+@media (max-width: 768px) {
+    .hide-mobile { display: none !important; }
+    .show-mobile { display: block !important; }
+}
+
+.hide-tablet { display: block; }
+.show-tablet { display: none; }
+
+@media (min-width: 481px) and (max-width: 1024px) {
+    .hide-tablet { display: none !important; }
+    .show-tablet { display: block !important; }
+}
+
+.hide-desktop { display: block; }
+.show-desktop { display: none; }
+
+@media (min-width: 1025px) {
+    .hide-desktop { display: none !important; }
+    .show-desktop { display: block !important; }
+}
+
+/* تحسين النصوص للشاشات المختلفة */
+.text-responsive {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+    .text-responsive {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+}
+
+@media (min-width: 1024px) {
+    .text-responsive {
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+}
+
+/* تحسين المسافات للشاشات المختلفة */
+.spacing-responsive {
+    padding: 20px;
+    margin: 20px 0;
+}
+
+@media (max-width: 480px) {
+    .spacing-responsive {
+        padding: 15px;
+        margin: 15px 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .spacing-responsive {
+        padding: 30px;
+        margin: 30px 0;
+    }
+}

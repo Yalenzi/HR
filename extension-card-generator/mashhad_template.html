@@ -2,8 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>قالب مشهد</title>
+    <link rel="stylesheet" href="responsive.css">
     <style>
         body {
             font-family: 'Cairo', Arial, sans-serif;
@@ -187,42 +189,265 @@
         .qr-code {
             width: 80px;
             height: 80px;
-            border: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: #666;
+            border: 2px solid #2c3e50;
+            background: white;
+            border-radius: 4px;
+            display: block;
         }
         
+        /* ===== تحسينات التصميم المتجاوب ===== */
+
+        /* الشاشات الصغيرة (الهواتف) */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .form-controls {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .form-controls h3 {
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+            }
+
+            .employee-search input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                font-size: 16px; /* منع التكبير في iOS */
+            }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 1rem;
+                margin: 5px 2px;
+                min-height: 44px;
+            }
+
+            .mashhad-container {
+                padding: 20px 15px;
+                min-height: auto;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .header .org-name {
+                font-size: 1rem;
+            }
+
+            .employee-table {
+                font-size: 0.8rem;
+                margin: 20px 0;
+            }
+
+            .employee-table th,
+            .employee-table td {
+                padding: 8px 4px;
+            }
+
+            .letter-title {
+                font-size: 1rem;
+            }
+
+            .letter-body,
+            .purpose {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            .signature-section {
+                position: static;
+                text-align: center;
+                margin-top: 30px;
+                padding-top: 20px;
+                border-top: 1px solid #ddd;
+            }
+
+            .qr-section {
+                position: static;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .qr-code {
+                width: 60px;
+                height: 60px;
+                margin: 0 auto;
+            }
+        }
+
+        /* الشاشات المتوسطة (الأجهزة اللوحية) */
+        @media (max-width: 768px) and (min-width: 481px) {
+            body {
+                padding: 15px;
+            }
+
+            .form-controls {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .mashhad-container {
+                padding: 30px 20px;
+            }
+
+            .employee-table {
+                font-size: 0.9rem;
+            }
+
+            .employee-table th,
+            .employee-table td {
+                padding: 10px 6px;
+            }
+
+            .signature-section {
+                bottom: 30px;
+                left: 30px;
+            }
+
+            .qr-section {
+                top: 30px;
+                left: 30px;
+            }
+        }
+
+        /* تحسينات للمس */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            .btn:hover {
+                transform: none;
+            }
+
+            .btn:active {
+                transform: scale(0.95);
+            }
+
+            input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* تحسين الجدول للشاشات الصغيرة */
+        @media (max-width: 600px) {
+            .employee-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                border: 1px solid #2c3e50;
+            }
+
+            .employee-table thead,
+            .employee-table tbody,
+            .employee-table th,
+            .employee-table td,
+            .employee-table tr {
+                display: block;
+            }
+
+            .employee-table thead tr {
+                position: absolute;
+                top: -9999px;
+                right: -9999px;
+            }
+
+            .employee-table tr {
+                border: 1px solid #2c3e50;
+                margin-bottom: 10px;
+                padding: 10px;
+                background: white;
+                border-radius: 5px;
+            }
+
+            .employee-table td {
+                border: none;
+                position: relative;
+                padding-right: 50% !important;
+                text-align: right;
+                white-space: normal;
+            }
+
+            .employee-table td:before {
+                content: attr(data-label) ": ";
+                position: absolute;
+                right: 6px;
+                width: 45%;
+                padding-left: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+                color: #2c3e50;
+            }
+        }
+
         @media print {
             .form-controls,
             .employee-search,
             .btn {
                 display: none !important;
             }
-            
+
             body {
                 background: white;
                 padding: 0;
             }
-            
+
             .mashhad-container {
                 box-shadow: none;
                 border: none;
                 margin: 0;
                 padding: 20px;
             }
+
+            .signature-section {
+                position: absolute;
+                bottom: 40px;
+                left: 40px;
+            }
+
+            .qr-section {
+                position: absolute;
+                top: 40px;
+                left: 40px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="form-controls">
-        <h3>🔍 البحث عن موظف</h3>
+        <h3>🔍 اختيار الموظف</h3>
         <div class="employee-search">
-            <input type="text" id="employeeSearchInput" placeholder="ابحث بالهوية الوطنية أو الاسم..." onkeyup="searchEmployee()">
-            <button onclick="searchEmployee()" class="btn btn-primary">بحث</button>
-            <button onclick="clearEmployeeData()" class="btn btn-secondary">مسح</button>
+            <div id="employeeCombobox"></div>
+            <div style="margin-top: 10px;">
+                <button onclick="clearEmployeeData()" class="btn btn-secondary">مسح البيانات</button>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                    <input type="checkbox" id="includeQR" onchange="toggleQRCode()" checked>
+                    <span>📱 إظهار QR Code</span>
+                </label>
+            </div>
         </div>
         
         <div class="form-row">
@@ -251,10 +476,10 @@
     <div class="mashhad-container" id="mashhadContainer">
         <!-- QR Code Section -->
         <div class="qr-section" id="qrSection" style="display: none;">
-            <div class="qr-code" id="qrCode">QR Code</div>
-            <label style="margin-top: 5px; font-size: 0.8rem;">
-                <input type="checkbox" id="includeQR" onchange="toggleQRCode()"> تضمين QR Code
-            </label>
+            <canvas id="qrCode" class="qr-code"></canvas>
+            <div style="margin-top: 5px; font-size: 0.7rem; color: #666;">
+                معلومات الموظف
+            </div>
         </div>
         
         <!-- Header -->
@@ -277,11 +502,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td id="displayEmployeeName">-</td>
-                    <td id="displayNationalId">-</td>
-                    <td id="displayEmployeeNumber">-</td>
-                    <td id="displayPosition">-</td>
-                    <td id="displayNationality">-</td>
+                    <td id="displayEmployeeName" data-label="اسم الموظف">-</td>
+                    <td id="displayNationalId" data-label="الهوية الوطنية">-</td>
+                    <td id="displayEmployeeNumber" data-label="رقم الموظف">-</td>
+                    <td id="displayPosition" data-label="الوظيفة">-</td>
+                    <td id="displayNationality" data-label="الجنسية">-</td>
                 </tr>
             </tbody>
         </table>
@@ -302,6 +527,10 @@
         </div>
     </div>
 
+    <!-- مكتبة QR Code المحلية -->
+    <script src="js/qrcode.min.js"></script>
+    <script src="mobile-enhancements.js"></script>
+    <script src="employee-combobox.js"></script>
     <script src="mashhad_script.js"></script>
 </body>
 </html>

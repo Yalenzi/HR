@@ -2,9 +2,11 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>لوحة التحكم - مركز الخدمات الطبية الشرعية</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
     <style>
         .admin-container { max-width: 1400px; margin: 0 auto; padding: 20px; }
         .admin-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
@@ -764,6 +766,299 @@
                 padding: 10px 15px;
             }
         }
+
+        /* ===== تحسينات التصميم المتجاوب للأجهزة المحمولة ===== */
+
+        /* قائمة التنقل المحمولة */
+        .nav-container {
+            position: relative;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .mobile-menu-btn:hover {
+            background: #2980b9;
+        }
+
+        .hamburger-line {
+            width: 20px;
+            height: 2px;
+            background: white;
+            margin: 2px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .menu-text {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-4px, 4px);
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active .hamburger-line:nth-child(3) {
+            transform: rotate(45deg) translate(-4px, -4px);
+        }
+
+        /* الشاشات الصغيرة (الهواتف) */
+        @media (max-width: 480px) {
+            .admin-container {
+                padding: 10px;
+            }
+
+            .admin-header {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+            }
+
+            .admin-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .admin-nav {
+                display: none;
+                flex-direction: column;
+                gap: 8px;
+                background: white;
+                border-radius: 8px;
+                padding: 15px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                margin-bottom: 20px;
+            }
+
+            .admin-nav.show {
+                display: flex;
+            }
+
+            .nav-btn {
+                padding: 15px;
+                font-size: 1rem;
+                text-align: center;
+            }
+
+            .admin-section {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px 15px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .data-table {
+                font-size: 0.8rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 8px 4px;
+            }
+
+            .action-btn {
+                padding: 6px 8px;
+                font-size: 0.75rem;
+                min-width: 60px;
+            }
+
+            .modal-dialog {
+                width: 95%;
+                margin: 10px;
+            }
+
+            .modal-body {
+                padding: 15px;
+            }
+
+            .attachments-list {
+                grid-template-columns: 1fr;
+            }
+
+            .background-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 10px;
+            }
+        }
+
+        /* الشاشات المتوسطة (الأجهزة اللوحية) */
+        @media (max-width: 768px) and (min-width: 481px) {
+            .admin-container {
+                padding: 15px;
+            }
+
+            .admin-header {
+                padding: 25px 20px;
+            }
+
+            .admin-nav {
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .nav-btn {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+
+            .admin-section {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .modal-dialog {
+                width: 90%;
+            }
+
+            .attachments-list {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+
+        /* الشاشات الكبيرة (أجهزة الكمبيوتر المحمولة) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .admin-container {
+                padding: 20px 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        /* تحسينات إضافية للمس */
+        @media (hover: none) and (pointer: coarse) {
+            .nav-btn,
+            .action-btn,
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            .nav-btn:hover,
+            .action-btn:hover,
+            .btn:hover {
+                transform: none;
+            }
+
+            .nav-btn:active,
+            .action-btn:active,
+            .btn:active {
+                transform: scale(0.95);
+            }
+        }
+
+        /* تحسين الجداول للشاشات الصغيرة */
+        @media (max-width: 768px) {
+            .table-container {
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+
+            .data-table {
+                min-width: 600px;
+            }
+
+            .data-table th:first-child,
+            .data-table td:first-child {
+                position: sticky;
+                right: 0;
+                background: white;
+                z-index: 1;
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            }
+
+            .data-table th:first-child {
+                background: #f8f9fa;
+            }
+        }
+
+        /* تحسين النوافذ المنبثقة للجوال */
+        @media (max-width: 480px) {
+            .modal-overlay {
+                padding: 10px;
+            }
+
+            .modal-dialog {
+                max-height: 90vh;
+                margin: 0;
+                border-radius: 10px;
+            }
+
+            .modal-header {
+                padding: 15px;
+                border-radius: 10px 10px 0 0;
+            }
+
+            .modal-header h3 {
+                font-size: 1.2rem;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .modal-footer .btn {
+                width: 100%;
+                margin: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -775,16 +1070,26 @@
         </div>
 
         <!-- شريط التنقل -->
-        <div class="admin-nav">
-            <button class="nav-btn active" onclick="showSection('dashboard')">📊 لوحة المعلومات</button>
-            <button class="nav-btn" onclick="showSection('employees')">👥 إدارة الموظفين</button>
-            <button class="nav-btn" onclick="showSection('cards')">📋 إدارة البطاقات</button>
-            <button class="nav-btn" onclick="showSection('templates')">🎨 إدارة القوالب</button>
-            <button class="nav-btn" onclick="showSection('organization')">🏢 معلومات المنشأة</button>
-            <button class="nav-btn" onclick="showSection('coordinates')">📍 تعديل الإحداثيات</button>
-            <button class="nav-btn" onclick="showSection('settings')">⚙️ الإعدادات</button>
-            <button class="nav-btn" onclick="showSection('backup')">💾 النسخ الاحتياطي</button>
-            <a href="index.html" class="nav-btn" style="text-decoration: none;">🏠 العودة للرئيسية</a>
+        <div class="nav-container">
+            <!-- زر القائمة للأجهزة المحمولة -->
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" style="display: none;">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="menu-text">القائمة</span>
+            </button>
+
+            <div class="admin-nav" id="adminNav">
+                <button class="nav-btn active" onclick="showSection('dashboard')">📊 لوحة المعلومات</button>
+                <button class="nav-btn" onclick="showSection('employees')">👥 إدارة الموظفين</button>
+                <button class="nav-btn" onclick="showSection('cards')">📋 إدارة البطاقات</button>
+                <button class="nav-btn" onclick="window.open('templates-manager.html', '_blank')">🎨 إدارة القوالب</button>
+                <button class="nav-btn" onclick="showSection('organization')">🏢 معلومات المنشأة</button>
+                <button class="nav-btn" onclick="showSection('coordinates')">📍 تعديل الإحداثيات</button>
+                <button class="nav-btn" onclick="showSection('settings')">⚙️ الإعدادات</button>
+                <button class="nav-btn" onclick="showSection('backup')">💾 النسخ الاحتياطي</button>
+                <a href="index.html" class="nav-btn" style="text-decoration: none;">🏠 العودة للرئيسية</a>
+            </div>
         </div>
 
         <!-- قسم لوحة المعلومات -->
@@ -2089,8 +2394,64 @@
                 e.target.style.display = 'none';
             }
         });
+
+        // وظائف القائمة المحمولة
+        function toggleMobileMenu() {
+            const nav = document.getElementById('adminNav');
+            const btn = document.querySelector('.mobile-menu-btn');
+
+            nav.classList.toggle('show');
+            btn.classList.toggle('active');
+        }
+
+        // إغلاق القائمة عند اختيار عنصر
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (window.innerWidth <= 480) {
+                    const nav = document.getElementById('adminNav');
+                    const menuBtn = document.querySelector('.mobile-menu-btn');
+                    nav.classList.remove('show');
+                    menuBtn.classList.remove('active');
+                }
+            });
+        });
+
+        // تحديث عرض القائمة عند تغيير حجم الشاشة
+        window.addEventListener('resize', function() {
+            const nav = document.getElementById('adminNav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+
+            if (window.innerWidth > 480) {
+                nav.classList.remove('show');
+                menuBtn.classList.remove('active');
+                nav.style.display = 'flex';
+                menuBtn.style.display = 'none';
+            } else {
+                nav.style.display = 'none';
+                menuBtn.style.display = 'flex';
+            }
+        });
+
+        // تهيئة القائمة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            const nav = document.getElementById('adminNav');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+
+            if (window.innerWidth <= 480) {
+                nav.style.display = 'none';
+                menuBtn.style.display = 'flex';
+            } else {
+                nav.style.display = 'flex';
+                menuBtn.style.display = 'none';
+            }
+        });
     </script>
 
+    <!-- مكتبة QR Code المحلية -->
+    <script src="js/qrcode.min.js"></script>
+
+    <script src="mobile-enhancements.js"></script>
+    <script src="employee-combobox.js"></script>
     <script src="admin.js"></script>
 </body>
 </html>

@@ -90,9 +90,15 @@ async function loadDashboardData() {
 // تحميل آخر البطاقات
 async function loadRecentCards() {
     try {
+        const recentCardsElement = document.getElementById('recentCards');
+        if (!recentCardsElement) {
+            console.warn('Element recentCards not found');
+            return;
+        }
+
         const response = await fetch('admin_api.php?action=recent_cards&limit=5');
         const result = await response.json();
-        
+
         if (result.success && result.data.length > 0) {
             const recentCardsHtml = result.data.map(card => `
                 <div style="padding: 10px; border-bottom: 1px solid #eee;">
@@ -100,13 +106,17 @@ async function loadRecentCards() {
                     <br><small>${card.created_at}</small>
                 </div>
             `).join('');
-            
-            document.getElementById('recentCards').innerHTML = recentCardsHtml;
+
+            recentCardsElement.innerHTML = recentCardsHtml;
         } else {
-            document.getElementById('recentCards').innerHTML = '<p>لا توجد بطاقات حديثة</p>';
+            recentCardsElement.innerHTML = '<p>لا توجد بطاقات حديثة</p>';
         }
     } catch (error) {
-        document.getElementById('recentCards').innerHTML = '<p>خطأ في تحميل البيانات</p>';
+        console.error('Error loading recent cards:', error);
+        const recentCardsElement = document.getElementById('recentCards');
+        if (recentCardsElement) {
+            recentCardsElement.innerHTML = '<p>خطأ في تحميل البيانات</p>';
+        }
     }
 }
 
@@ -3223,15 +3233,30 @@ function displayEmployees(employeesList) {
     const tableBody = document.getElementById('employeesTableBody');
     const noDataMessage = document.getElementById('noEmployeesMessage');
 
-    if (!employeesList || employeesList.length === 0) {
-        tableBody.innerHTML = '';
-        noDataMessage.style.display = 'block';
-        document.querySelector('.table-container').style.display = 'none';
+    if (!tableBody) {
+        console.warn('Element employeesTableBody not found');
         return;
     }
 
-    noDataMessage.style.display = 'none';
-    document.querySelector('.table-container').style.display = 'block';
+    if (!employeesList || employeesList.length === 0) {
+        tableBody.innerHTML = '';
+        if (noDataMessage) {
+            noDataMessage.style.display = 'block';
+        }
+        const tableContainer = document.querySelector('.table-container');
+        if (tableContainer) {
+            tableContainer.style.display = 'none';
+        }
+        return;
+    }
+
+    if (noDataMessage) {
+        noDataMessage.style.display = 'none';
+    }
+    const tableContainer = document.querySelector('.table-container');
+    if (tableContainer) {
+        tableContainer.style.display = 'block';
+    }
 
     tableBody.innerHTML = '';
 
@@ -3735,23 +3760,82 @@ function showQRCodeModal(qrData, qrInfo) {
     generateQRCodeCanvas(qrData, 'qrCodeCanvas');
 }
 
-// إنشاء QR Code على Canvas (تنفيذ بسيط)
+// إنشاء QR Code على Canvas باستخدام مكتبة qrcode.js
 function generateQRCodeCanvas(data, containerId) {
     const container = document.getElementById(containerId);
 
-    // هنا يمكن استخدام مكتبة QR Code مثل qrcode.js
-    // للتبسيط، سنعرض النص فقط
-    container.innerHTML = `
-        <div style="width: 200px; height: 200px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; background: white; margin: 0 auto;">
-            <div style="text-align: center; font-size: 0.7rem; padding: 10px;">
-                <div style="font-weight: bold; margin-bottom: 5px;">QR Code</div>
-                <div style="font-size: 0.6rem; color: #666;">البيانات مشفرة</div>
+    if (!container) {
+        console.warn(`Container ${containerId} not found`);
+        return;
+    }
+
+    // التحقق من توفر مكتبة QR Code
+    if (typeof QRCode === 'undefined') {
+        console.warn('QRCode library not loaded');
+        container.innerHTML = `
+            <div style="width: 200px; height: 200px; border: 2px solid #333; display: flex; align-items: center; justify-content: center; background: white; margin: 0 auto;">
+                <div style="text-align: center; font-size: 0.7rem; padding: 10px;">
+                    <div style="font-weight: bold; margin-bottom: 5px;">QR Code</div>
+                    <div style="font-size: 0.6rem; color: #666;">مكتبة QR غير متوفرة</div>
+                </div>
             </div>
-        </div>
-        <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">
-            ملاحظة: لعرض QR Code حقيقي، يتطلب تضمين مكتبة qrcode.js
-        </p>
+        `;
+        return;
+    }
+
+    // إنشاء canvas للـ QR Code
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = `
+        width: 200px;
+        height: 200px;
+        border: 2px solid #333;
+        border-radius: 8px;
+        background: white;
+        margin: 0 auto;
+        display: block;
     `;
+
+    // إنشاء QR Code
+    QRCode.toCanvas(canvas, data, {
+        width: 200,
+        height: 200,
+        margin: 2,
+        color: {
+            dark: '#2c3e50',
+            light: '#ffffff'
+        },
+        errorCorrectionLevel: 'M'
+    }, function (error) {
+        if (error) {
+            console.error('خطأ في إنشاء QR Code:', error);
+            container.innerHTML = `
+                <div style="width: 200px; height: 200px; border: 2px solid #dc3545; display: flex; align-items: center; justify-content: center; background: #f8d7da; margin: 0 auto; border-radius: 8px;">
+                    <div style="text-align: center; font-size: 0.7rem; padding: 10px; color: #721c24;">
+                        <div style="font-weight: bold; margin-bottom: 5px;">❌ خطأ</div>
+                        <div style="font-size: 0.6rem;">فشل في إنشاء QR Code</div>
+                    </div>
+                </div>
+            `;
+        } else {
+            // مسح المحتوى السابق وإضافة Canvas
+            container.innerHTML = '';
+            container.appendChild(canvas);
+
+            // إضافة تسمية توضيحية
+            const label = document.createElement('div');
+            label.style.cssText = `
+                text-align: center;
+                margin-top: 8px;
+                font-size: 0.8rem;
+                color: #6c757d;
+                font-weight: 500;
+            `;
+            label.textContent = 'بيانات الموظف';
+            container.appendChild(label);
+
+            console.log('تم إنشاء QR Code بنجاح');
+        }
+    });
 }
 
 // تحميل QR Code
@@ -5502,9 +5586,57 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// فحص العناصر المطلوبة
+function checkRequiredElements() {
+    const requiredElements = [
+        'employeesTableBody',
+        'recentCards'
+    ];
+
+    let allFound = true;
+    requiredElements.forEach(id => {
+        if (!document.getElementById(id)) {
+            console.warn(`Element ${id} not found`);
+            allFound = false;
+        }
+    });
+
+    return allFound;
+}
+
+// عرض رسالة خطأ
+function showErrorMessage(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #dc3545;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        z-index: 10000;
+        font-size: 14px;
+        max-width: 300px;
+    `;
+    errorDiv.textContent = message;
+
+    document.body.appendChild(errorDiv);
+
+    setTimeout(() => {
+        errorDiv.remove();
+    }, 5000);
+}
+
 // تحميل البيانات عند بدء التشغيل
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Admin panel loaded');
+
+    // فحص العناصر المطلوبة أولاً
+    if (!checkRequiredElements()) {
+        console.error('بعض العناصر المطلوبة غير موجودة');
+        showErrorMessage('خطأ في تحميل الصفحة - بعض العناصر مفقودة');
+    }
 
     // تحميل بيانات لوحة المعلومات
     loadDashboardData();

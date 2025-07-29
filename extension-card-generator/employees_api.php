@@ -18,6 +18,7 @@ try {
 
     switch ($action) {
         case 'getEmployees':
+        case 'list':
             getEmployees($db);
             break;
         

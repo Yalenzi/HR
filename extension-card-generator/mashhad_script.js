@@ -4,11 +4,40 @@
 
 let currentEmployeeData = null;
 let employees = [];
+let employeeCombobox = null;
 
 // تحميل قائمة الموظفين عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
+    initializeEmployeeCombobox();
     loadEmployeesList();
 });
+
+// تهيئة Combobox الموظفين
+function initializeEmployeeCombobox() {
+    employeeCombobox = new EmployeeCombobox('employeeCombobox', {
+        placeholder: 'ابحث عن موظف بالاسم أو الهوية الوطنية...',
+        onSelect: function(employee) {
+            selectEmployeeFromCombobox(employee);
+        }
+    });
+}
+
+// اختيار موظف من Combobox
+function selectEmployeeFromCombobox(employee) {
+    // تحويل البيانات للتوافق مع الكود الموجود
+    const employeeData = {
+        employee_name: employee.name,
+        national_id: employee.national_id,
+        employee_number: employee.employee_number,
+        position: employee.position,
+        nationality: employee.nationality,
+        department: employee.department,
+        id: employee.id
+    };
+
+    // استخدام الوظيفة الموجودة
+    fillEmployeeData(employeeData);
+}
 
 // تحميل قائمة الموظفين
 function loadEmployeesList() {
@@ -81,11 +110,9 @@ function fillEmployeeData(employee) {
     // تحديث نص الخطاب
     updateLetterContent();
     
-    // إظهار قسم QR Code
-    document.getElementById('qrSection').style.display = 'block';
-    
     // تحديث QR Code إذا كان مفعلاً
     if (document.getElementById('includeQR').checked) {
+        document.getElementById('qrSection').style.display = 'block';
         generateQRCode();
     }
     
@@ -106,8 +133,10 @@ function clearEmployeeData() {
     // إخفاء قسم QR Code
     document.getElementById('qrSection').style.display = 'none';
     
-    // مسح حقل البحث
-    document.getElementById('employeeSearchInput').value = '';
+    // مسح Combobox
+    if (employeeCombobox) {
+        employeeCombobox.clearSelection();
+    }
     
     // تحديث نص الخطاب
     updateLetterContent();
@@ -146,38 +175,85 @@ function updatePurpose() {
 // تبديل عرض QR Code
 function toggleQRCode() {
     const includeQR = document.getElementById('includeQR').checked;
+    const qrSection = document.getElementById('qrSection');
     const qrCode = document.getElementById('qrCode');
-    
+
     if (includeQR && currentEmployeeData) {
-        generateQRCode();
+        // إظهار قسم QR Code
+        qrSection.style.display = 'block';
         qrCode.style.display = 'block';
+
+        // إنشاء QR Code
+        generateQRCode();
+
+        showNotification('تم تفعيل QR Code', 'success');
     } else {
+        // إخفاء قسم QR Code
+        qrSection.style.display = 'none';
         qrCode.style.display = 'none';
+
+        if (!currentEmployeeData) {
+            showNotification('يرجى اختيار موظف أولاً', 'warning');
+        } else {
+            showNotification('تم إخفاء QR Code', 'info');
+        }
     }
 }
 
 // إنشاء QR Code
 function generateQRCode() {
     if (!currentEmployeeData) return;
-    
-    fetch(`employees_api.php?action=generateQRCode&employee_id=${currentEmployeeData.id}`)
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // عرض QR Code بسيط (يمكن تحسينه باستخدام مكتبة QR Code)
-            const qrCode = document.getElementById('qrCode');
-            qrCode.innerHTML = `
-                <div style="font-size: 0.6rem; text-align: center;">
-                    <div style="font-weight: bold;">QR</div>
-                    <div>${currentEmployeeData.employee_name.substring(0, 8)}...</div>
-                </div>
-            `;
-            qrCode.title = 'QR Code للموظف: ' + currentEmployeeData.employee_name;
+
+    // إنشاء محتوى QR Code
+    const qrData = createQRData(currentEmployeeData);
+
+    // إنشاء QR Code باستخدام مكتبة QRCode
+    const canvas = document.getElementById('qrCode');
+
+    // تنظيف Canvas السابق
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    // إنشاء QR Code جديد
+    QRCode.toCanvas(canvas, qrData, {
+        width: 80,
+        height: 80,
+        margin: 1,
+        color: {
+            dark: '#2c3e50',
+            light: '#ffffff'
+        },
+        errorCorrectionLevel: 'M'
+    }, function (error) {
+        if (error) {
+            console.error('خطأ في إنشاء QR Code:', error);
+            // عرض رسالة خطأ في Canvas
+            context.fillStyle = '#dc3545';
+            context.font = '10px Arial';
+            context.textAlign = 'center';
+            context.fillText('خطأ في QR', 40, 35);
+            context.fillText('Code', 40, 50);
+        } else {
+            console.log('تم إنشاء QR Code بنجاح');
         }
-    })
-    .catch(error => {
-        console.error('خطأ في إنشاء QR Code:', error);
     });
+}
+
+// إنشاء محتوى QR Code
+function createQRData(employee) {
+    const qrData = {
+        name: employee.employee_name || employee.name,
+        national_id: employee.national_id,
+        employee_number: employee.employee_number || '-',
+        position: employee.position,
+        department: employee.department || '-',
+        nationality: employee.nationality,
+        generated_at: new Date().toISOString(),
+        generated_by: 'مركز الخدمات الطبية الشرعية'
+    };
+
+    // تحويل إلى JSON مع تنسيق جميل
+    return JSON.stringify(qrData, null, 2);
 }
 
 // إنشاء المشهد

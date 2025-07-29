@@ -2,8 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>نظام إدارة الموظفين المتكامل - البداية</title>
+    <link rel="stylesheet" href="responsive.css">
     <style>
         body {
             font-family: 'Cairo', Arial, sans-serif;
@@ -187,6 +189,194 @@
             color: #6c757d;
             font-size: 0.9rem;
         }
+
+        /* ===== تحسينات التصميم المتجاوب ===== */
+
+        /* الشاشات الصغيرة (الهواتف) */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+                margin-bottom: 8px;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .status-section {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .status-section h3 {
+                font-size: 1.1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 30px;
+            }
+
+            .feature-card {
+                padding: 20px 15px;
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+                margin-bottom: 12px;
+            }
+
+            .feature-card h3 {
+                font-size: 1.1rem;
+                margin-bottom: 8px;
+            }
+
+            .feature-card p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-top: 25px;
+            }
+
+            .action-btn {
+                padding: 18px 15px;
+                font-size: 1rem;
+                min-height: 60px;
+            }
+
+            .action-btn small {
+                font-size: 0.85rem;
+                margin-top: 5px;
+                display: block;
+            }
+
+            .footer {
+                padding: 15px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* الشاشات المتوسطة (الأجهزة اللوحية) */
+        @media (max-width: 768px) and (min-width: 481px) {
+            .container {
+                margin: 15px;
+            }
+
+            .header {
+                padding: 30px 25px;
+            }
+
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .content {
+                padding: 30px 25px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 18px;
+            }
+
+            .actions-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .action-btn {
+                padding: 16px 12px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* الشاشات الكبيرة (أجهزة الكمبيوتر المحمولة) */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .container {
+                margin: 20px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* تحسينات للمس */
+        @media (hover: none) and (pointer: coarse) {
+            .action-btn {
+                min-height: 50px;
+            }
+
+            .action-btn:hover {
+                transform: none;
+            }
+
+            .action-btn:active {
+                transform: scale(0.95);
+            }
+
+            .feature-card:hover {
+                transform: none;
+            }
+
+            .feature-card:active {
+                transform: scale(0.98);
+            }
+        }
+
+        /* تحسين النصوص للشاشات الصغيرة جداً */
+        @media (max-width: 320px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .feature-icon {
+                font-size: 2rem;
+            }
+
+            .feature-card h3 {
+                font-size: 1rem;
+            }
+
+            .feature-card p {
+                font-size: 0.85rem;
+            }
+
+            .action-btn {
+                font-size: 0.9rem;
+                padding: 15px 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -264,7 +454,7 @@
                 
                 <a href="README_EMPLOYEES.md" class="action-btn btn-info">
                     📖 دليل المستخدم<br>
-                    <small style="font-weight: normal;">شرح مفصل للنظام</small>
+                    <small style="font-weight: normal;">شرح مفصل وواضح لجميع ميزات النظام</small>
                 </a>
             </div>
             
@@ -285,5 +475,10 @@
             <p>تم تطوير النظام بواسطة د. فواز جمال الديدب © 2024</p>
         </div>
     </div>
+
+    <!-- مكتبة QR Code المحلية -->
+    <script src="js/qrcode.min.js"></script>
+
+    <script src="mobile-enhancements.js"></script>
 </body>
 </html>
