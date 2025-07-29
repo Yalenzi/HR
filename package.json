@@ -1,0 +1,13 @@
+{
+  "name": "hr-system",
+  "version": "1.0.0",
+  "description": "HR Management System - Employee Card Generator",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build needed - static site'",
+    "start": "echo 'Static site - open index.html'"
+  },
+  "keywords": ["hr", "employee", "cards", "static"],
+  "author": "HR Team",
+  "license": "MIT"
+}

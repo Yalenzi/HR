@@ -1,21 +1,27 @@
 [build]
-  # No build command needed for static PHP files
+  # Static site - no build command needed
   command = ""
-  # Publish the extension-card-generator directory
-  publish = "extension-card-generator"
+  # Publish the root directory (contains index.html)
+  publish = "."
 
 [build.environment]
-  # Disable Next.js detection
+  # Disable Next.js detection completely
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NODE_VERSION = "18"
 
-# Redirect all requests to index.html for client-side routing
+# Redirect requests to extension-card-generator for the main app
 [[redirects]]
-  from = "/*"
+  from = "/app/*"
+  to = "/extension-card-generator/:splat"
+  status = 200
+
+# Serve index.html for root requests
+[[redirects]]
+  from = "/"
   to = "/index.html"
   status = 200
 
-# Handle PHP files (Note: Netlify doesn't support PHP natively)
-# You'll need to convert PHP to static files or use Netlify Functions
+# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -23,3 +29,20 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Specific headers for HTML files
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Headers for static assets
+[[headers]]
+  for = "/extension-card-generator/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/extension-card-generator/templates/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
